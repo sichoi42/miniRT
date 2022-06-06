@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/05/24 17:49:14 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/06 19:53:04 by swi              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,22 @@ LIB_MLX = $(MLX_DIR)/$(MLX_NAME)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -03
+#CFLAGS = -O3
 
 GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 CHECK = \033[0;32m\xE2\x9C\x94\033[0m
 
-FUNC = ./test
+FUNC = main\
+	   base/ft_memset\
+	   base/print_error\
+	   base/ft_strlen\
+	   base/ft_strcmp\
+	   base/ft_read\
+	   base/malloc_array\
+	   base/ft_realloc\
+	   base/stox
 
 SRC = $(addsuffix .c, $(FUNC))
 OBJ = $(addsuffix .o, $(FUNC))
