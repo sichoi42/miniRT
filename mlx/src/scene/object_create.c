@@ -28,6 +28,18 @@ t_sphere	*sphere(t_point3 center, double radius)
 	return (sp);
 }
 
+t_plane	*plane(t_point3 p, t_vec3 normal)
+{
+	t_plane	*pl;
+
+	pl = malloc(sizeof(t_plane));
+	if (pl == NULL)
+		exit(1);
+	pl->p = p;
+	pl->normal = normal;
+	return (pl);
+}
+
 t_light	*point_light(t_point3 orig, t_color3 color, double ratio)
 {
 	t_light	*light;

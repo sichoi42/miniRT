@@ -4,6 +4,8 @@
 # define FALSE 0
 
 # define SP 0
+# define PL 1
+
 # define POINT_LIGHT 1
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
@@ -21,6 +23,22 @@ struct s_vec3
 	double y;
 	double z;
 };
+
+typedef struct s_image
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_image;
+
+typedef struct s_mlx
+{
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_image		*image;
+}	t_mlx;
 
 typedef struct s_ray
 {
@@ -53,6 +71,12 @@ typedef struct s_sphere
 	double		radius2;
 }	t_sphere;
 
+typedef struct s_plane
+{
+	t_point3	p;
+	t_vec3		normal;
+}	t_plane;
+
 typedef struct s_hit_record
 {
 	t_point3	p;
@@ -81,6 +105,7 @@ typedef struct s_light
 
 typedef struct s_scene
 {
+	t_mlx			mlx;
 	t_canvas		canvas;
 	t_camera		camera;
 	t_obj			*objs;

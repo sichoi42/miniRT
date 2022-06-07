@@ -18,7 +18,7 @@ t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	half_b = vdot(oc, ray->dir);
 	c = vlength2(oc) - sp->radius2;
 	discriminant = half_b * half_b - a * c;
-	if (discriminant < 0)
+	if (discriminant < EPSILON)
 		return (FALSE);
 	sqrt_d = sqrt(discriminant);
 	root = (-half_b - sqrt_d) / a;

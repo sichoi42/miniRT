@@ -1,5 +1,5 @@
 #ifndef MINIRT_H
-#define MINIRT_H
+# define MINIRT_H
 
 /* printf, perror */
 # include <stdio.h>
@@ -84,13 +84,13 @@ typedef struct s_in_object {
 }	t_in_object;
 
 /* base */
-void	ft_memset(void *target, unsigned int size, int input);
-void	print_error(char *message);
-int		ft_strlen(char *s);
-int		ft_strcmp(char *l, char *r);
-void	*malloc_array(int size, int len);
-void	*ft_realloc(void *ptr, int ptr_size, int new_size);
-int		ft_read(int fd, char *buf, int size);
+void				ft_memset(void *target, unsigned int size, int input);
+void				print_error(char *message);
+int					ft_strlen(char *s);
+int					ft_strcmp(char *l, char *r);
+void				*malloc_array(int size, int len);
+void				*ft_realloc(void *ptr, int ptr_size, int new_size);
+int					ft_read(int fd, char *buf, int size);
 unsigned long long	stof_front(char *str);
 unsigned long long	stof_behind(char *str);
 int					stoi_rgb(char *str);

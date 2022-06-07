@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/05/24 17:49:14 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/07 17:22:57 by sichoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,24 +17,38 @@ MLX_DIR = ./mlx
 LIB_MLX = $(MLX_DIR)/$(MLX_NAME)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -03
+CFLAGS = -Wall -Wextra -Werror -O3 -g
 
 GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 CHECK = \033[0;32m\xE2\x9C\x94\033[0m
 
-FUNC = ./test
+FUNC = ./main\
+	./src/print/print\
+	./src/scene/camera\
+	./src/scene/canvas\
+	./src/scene/object_create\
+	./src/trace/hit/normal\
+	./src/trace/hit/hit\
+	./src/trace/hit/hit_plane\
+	./src/trace/hit/hit_sphere\
+	./src/trace/ray/ray\
+	./src/trace/ray/phong_lighting\
+	./src/utils/obj_utils\
+	./src/utils/vec3_utils\
 
 SRC = $(addsuffix .c, $(FUNC))
 OBJ = $(addsuffix .o, $(FUNC))
 
+INC = ./include
+
 %.o : %.c
 	@echo "$(NAME): $(GREEN) compiling... $< $(CHECK) $(RESET)"
-	@$(CC) -I $(MLX_DIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I $(INC) -I $(MLX_DIR) -o $@ -c $<
 
 $(NAME) : $(LIB_MLX) $(OBJ)
-	@$(CC) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJ)
+	@$(CC) $(CFLAGS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJ)
 	@echo "$(NAME): $(GREEN) $(NAME) was created! $(CHECK) $(RESET)"
 	@install_name_tool -change libmlx.dylib $(LIB_MLX) $(NAME)
 	@echo "$(NAME): $(GREEN) Completed Setting Path of $(MLX_NAME) $(CHECK) $(RESET)"
