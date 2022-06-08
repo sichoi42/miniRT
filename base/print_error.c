@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 #include <unistd.h>
 
 void	print_error(char *message)

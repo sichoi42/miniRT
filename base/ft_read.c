@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 #include <unistd.h>
 
 int	ft_read(int fd, char *buf, int size)

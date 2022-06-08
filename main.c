@@ -1,4 +1,5 @@
-#include "minirt.h"
+#include "parsing.h"
+#include "draw.h"
 
 void	input_check(int argc, char *argv[])
 {
@@ -131,18 +132,18 @@ double	input_ratio(int fd, char *buf)
 	return (num);
 }
 
-void	input_rgb(int fd, t_rgb *rgb, char *buf)
+void	input_color3(int fd, t_color3 *rgb, char *buf)
 {
 	char	*str;
 
 	str = read_to_str(fd, buf);
-	rgb->r = (unsigned char)stoi_rgb(str);
+	rgb->x = (unsigned char)stoi_rgb(str) / 255.999;
 	free(str);
 	str = read_to_str(fd, buf);
-	rgb->g = (unsigned char)stoi_rgb(str);
+	rgb->y = (unsigned char)stoi_rgb(str) / 255.999;
 	free(str);
 	str = read_to_str(fd, buf);
-	rgb->b = (unsigned char)stoi_rgb(str);
+	rgb->z = (unsigned char)stoi_rgb(str) / 255.999;
 	free(str);
 }
 
@@ -162,17 +163,13 @@ void	input_ambient(int fd, t_in_object *obj)
 //	if (num != 0 && num != 1)
 //		print_error("Wrong input\n");
 	decimal = stof_behind(str);
-	
+
 	obj->a->ratio = input_ratio(num, decimal, str);
 //	if (buf != ' ')
 //		print_error("Wrong input\n");
 */
 	obj->a->ratio = input_ratio(fd, &buf);
-	input_rgb(fd, &(obj->a->rgb), &buf);
-	/* ======================== test =============================== */
-	printf("%f ", obj->a->ratio); fflush(0);
-	printf("%d,%d,%d\n", obj->a->rgb.r, obj->a->rgb.g, obj->a->rgb.b); fflush(0);
-	/* ======================================================= */
+	input_color3(fd, &(obj->a->rgb), &buf);
 }
 
 void	input_xyz(int fd, t_point3 *org, char *buf)
@@ -208,11 +205,6 @@ void	input_camera(int fd, t_in_object *obj)
 	obj->c->fov = make_float(fd, &buf);
 	if (obj->c->fov < 0 || obj->c->fov > 180)
 		print_error("Wrong input\n");
-	/* ======================== test =============================== */
-	printf("%f,%f,%f\n", obj->c->org.x, obj->c->org.y, obj->c->org.z); fflush(0);
-	printf("%f,%f,%f\n", obj->c->org_vec.x, obj->c->org_vec.y, obj->c->org_vec.z); fflush(0);
-	printf("%f\n", obj->c->fov); fflush(0);
-	/* ======================================================= */
 }
 
 void	input_light(int fd, t_in_object *obj)
@@ -228,13 +220,8 @@ void	input_light(int fd, t_in_object *obj)
 	input_xyz(fd, &((obj->l)[obj->l_size - 1].org), &buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
 	(obj->l)[obj->l_size - 1].ratio = input_ratio(fd, &buf);
-	//input_rgb(fd, &(obj->l->rgb), &buf);
-	input_rgb(fd, &((obj->l)[obj->l_size - 1].rgb), &buf);
-	/* ======================== test =============================== */
-	printf("%f,%f,%f\n", (obj->l)[obj->l_size - 1].org.x, obj->l[obj->l_size - 1].org.y, obj->l[obj->l_size - 1].org.z); fflush(0);
-	printf("%f\n", obj->l[obj->l_size - 1].ratio); fflush(0);
-	printf("%d,%d,%d\n", obj->l[obj->l_size - 1].rgb.r, obj->l[obj->l_size - 1].rgb.g, obj->l[obj->l_size - 1].rgb.b); fflush(0);
-	/* ======================================================= */
+	//input_color3(fd, &(obj->l->rgb), &buf);
+	input_color3(fd, &((obj->l)[obj->l_size - 1].rgb), &buf);
 }
 
 void	input_sphere(int fd, t_in_object *obj, char *buf)
@@ -251,13 +238,8 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
 	(obj->sp)[obj->sp_size - 1].r = make_float(fd, buf);
-	//input_rgb(fd, &(obj->l->rgb), &buf);
-	input_rgb(fd, &((obj->sp)[obj->sp_size - 1].rgb), buf);
-	/* ======================== test =============================== */
-	printf("sp:%f,%f,%f\n", (obj->sp)[obj->sp_size - 1].org.x, obj->sp[obj->sp_size - 1].org.y, obj->sp[obj->sp_size - 1].org.z); fflush(0);
-	printf("sp:%f\n", obj->sp[obj->sp_size - 1].r); fflush(0);
-	printf("sp:%d,%d,%d\n", obj->sp[obj->sp_size - 1].rgb.r, obj->sp[obj->sp_size - 1].rgb.g, obj->sp[obj->sp_size - 1].rgb.b); fflush(0);
-	/* ======================================================= */
+	//input_color3(fd, &(obj->l->rgb), &buf);
+	input_color3(fd, &((obj->sp)[obj->sp_size - 1].rgb), buf);
 }
 
 void	input_plane(int fd, t_in_object *obj, char *buf)
@@ -274,13 +256,8 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 	input_xyz(fd, &((obj->pl)[obj->pl_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
 	input_vec(fd, &((obj->pl)[obj->pl_size - 1].org_vec), buf);
-	//input_rgb(fd, &(obj->l->rgb), &buf);
-	input_rgb(fd, &((obj->pl)[obj->pl_size - 1].rgb), buf);
-	/* ======================== test =============================== */
-	printf("pl:%f,%f,%f\n", (obj->pl)[obj->pl_size - 1].org.x, obj->pl[obj->pl_size - 1].org.y, obj->pl[obj->pl_size - 1].org.z); fflush(0);
-	printf("pl:%f,%f,%f\n", (obj->pl)[obj->pl_size - 1].org_vec.x, obj->pl[obj->pl_size - 1].org_vec.y, obj->pl[obj->pl_size - 1].org_vec.z); fflush(0);
-	printf("pl:%d,%d,%d\n", obj->pl[obj->pl_size - 1].rgb.r, obj->pl[obj->pl_size - 1].rgb.g, obj->pl[obj->pl_size - 1].rgb.b); fflush(0);
-	/* ======================================================= */
+	//input_color3(fd, &(obj->l->rgb), &buf);
+	input_color3(fd, &((obj->pl)[obj->pl_size - 1].rgb), buf);
 }
 
 void	input_cylinder(int fd, t_in_object *obj, char *buf)
@@ -299,14 +276,8 @@ void	input_cylinder(int fd, t_in_object *obj, char *buf)
 	input_vec(fd, &((obj->cy)[obj->cy_size - 1].org_vec), buf);
 	obj->cy[obj->cy_size - 1].r = make_float(fd, buf);
 	obj->cy[obj->cy_size - 1].h = make_float(fd, buf);
-	//input_rgb(fd, &(obj->l->rgb), &buf);
-	input_rgb(fd, &((obj->cy)[obj->cy_size - 1].rgb), buf);
-	/* ======================== test =============================== */
-	printf("cy:%f,%f,%f\n", (obj->cy)[obj->cy_size - 1].org.x, obj->cy[obj->cy_size - 1].org.y, obj->cy[obj->cy_size - 1].org.z); fflush(0);
-	printf("cy:%f,%f,%f\n", (obj->cy)[obj->cy_size - 1].org_vec.x, obj->cy[obj->cy_size - 1].org_vec.y, obj->cy[obj->cy_size - 1].org_vec.z); fflush(0);
-	printf("cy:%f,%f\n", (obj->cy)[obj->cy_size - 1].r, obj->cy[obj->cy_size - 1].h); fflush(0);
-	printf("cy:%d,%d,%d\n", obj->cy[obj->cy_size - 1].rgb.r, obj->cy[obj->cy_size - 1].rgb.g, obj->cy[obj->cy_size - 1].rgb.b); fflush(0);
-	/* ======================================================= */
+	//input_color3(fd, &(obj->l->rgb), &buf);
+	input_color3(fd, &((obj->cy)[obj->cy_size - 1].rgb), buf);
 }
 
 void	init_input_obj(int fd, t_in_object *obj)
@@ -343,5 +314,6 @@ int	main(int argc, char *argv[])
 	fd = file_open(argv[1]);
 	init_input_obj(fd, &in_obj);
 	close(fd);
+	draw(&in_obj);
 	return (0);
 }

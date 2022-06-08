@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 
 void	ft_memset(void *target, unsigned int size, int input)
 {

@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 #include <stdlib.h>
 
 void	*malloc_array(int size, int len)

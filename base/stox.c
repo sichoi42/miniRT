@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 #include <unistd.h>
 
 static void	check_minus(char *str, size_t *index, int *is_minus)
