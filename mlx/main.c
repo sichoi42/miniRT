@@ -3,17 +3,13 @@
 #include "print.h"
 #include "mlx.h"
 
-t_scene	*scene_init(void)
+t_scene	*scene_init(t_scene *scene)
 {
-	t_scene		*scene;
 	t_obj		*objs;
 	t_obj		*lights;
 	double		ka;
 
-	scene = malloc(sizeof(t_scene));
-	if (scene == NULL)
-		exit(1);
-	scene->canvas = canvas(400, 300);
+	scene->canvas = canvas(1600, 900);
 	scene->camera = camera(&scene->canvas, point3(0, 0, 0));
 	objs = NULL;
 	obj_add(&objs, object(SP, sphere(point3(-2, 0, -5), 2), color3(0.5, 0, 0)));
@@ -28,19 +24,13 @@ t_scene	*scene_init(void)
 	return (scene);
 }
 
-void	init_mlx(t_scene *scene)
+void	init_mlx(t_mlx *mlx, t_scene *scene)
 {
-	t_image		image;
-	void		*mlx_ptr;
-	void		*win_ptr;
-
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, scene->canvas.width, scene->canvas.height, "miniRT");
-	image.img = mlx_new_image(mlx_ptr, scene->canvas.width, scene->canvas.height);
-	image.addr = mlx_get_data_addr(image.img, &image.bits_per_pixel, &image.line_length, &image.endian);
-	scene->mlx.mlx_ptr = mlx_ptr;
-	scene->mlx.win_ptr = win_ptr;
-	scene->mlx.image = &image;
+	mlx->mlx_ptr = mlx_init();
+	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, scene->canvas.width, scene->canvas.height, "miniRT");
+	mlx->img = mlx_new_image(mlx->mlx_ptr, scene->canvas.width, scene->canvas.height);
+	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length, &mlx->endian);
+	scene->mlx = mlx;
 }
 
 int	main(void)
@@ -48,27 +38,28 @@ int	main(void)
 	int			i, j;
 	double		u, v;
 	t_color3	pixel_color;
-	t_scene		*scene;
+	t_scene		scene;
+	t_mlx		mlx;
 
-	scene = scene_init();
-	init_mlx(scene);
-	j = scene->canvas.height - 1;
-	while (j >= 0)
+	scene_init(&scene);
+	init_mlx(&mlx, &scene);
+	j = 0;
+	while (j < scene.canvas.height)
 	{
 		i = 0;
-		while (i < scene->canvas.width)
+		while (i < scene.canvas.width)
 		{
-			u = (double)i / (scene->canvas.width - 1);
-			v = (double)j / (scene->canvas.height - 1);
+			u = (double)i / (scene.canvas.width - 1);
+			v = (double)j / (scene.canvas.height - 1);
 			//ray from camera origin to pixel
-			scene->ray = ray_primary(&scene->camera, u, v);
-			pixel_color = ray_color(scene);
-			ft_mlx_pixel_put(scene, &pixel_color, j, i);
+			scene.ray = ray_primary(&scene.camera, u, v);
+			pixel_color = ray_color(&scene);
+			ft_mlx_pixel_put(&scene, &pixel_color, i, j);
 			++i;
 		}
-		--j;
+		++j;
 	}
-	mlx_put_image_to_window(scene->mlx.mlx_ptr, scene->mlx.win_ptr, scene->mlx.image->img, 0, 0);
-	mlx_loop(scene->mlx.mlx_ptr);
+	mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.img, 0, 0);
+	mlx_loop(mlx.mlx_ptr);
 	return (0);
 }

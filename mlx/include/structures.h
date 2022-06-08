@@ -24,20 +24,15 @@ struct s_vec3
 	double z;
 };
 
-typedef struct s_image
+typedef struct s_mlx
 {
+	void	*mlx_ptr;
+	void	*win_ptr;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}	t_image;
-
-typedef struct s_mlx
-{
-	void		*mlx_ptr;
-	void		*win_ptr;
-	t_image		*image;
 }	t_mlx;
 
 typedef struct s_ray
@@ -90,10 +85,10 @@ typedef struct s_hit_record
 
 typedef struct s_obj
 {
-	t_obj_type	type;
-	void		*element;
-	t_color3	albedo;
-	void		*next;
+	t_obj_type		type;
+	void			*element;
+	t_color3		albedo;
+	struct s_obj	*next;
 }	t_obj;
 
 typedef struct s_light
@@ -105,7 +100,7 @@ typedef struct s_light
 
 typedef struct s_scene
 {
-	t_mlx			mlx;
+	t_mlx			*mlx;
 	t_canvas		canvas;
 	t_camera		camera;
 	t_obj			*objs;
