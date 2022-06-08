@@ -232,8 +232,11 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 	if (obj->sp == NULL)
 		obj->sp = malloc_array(sizeof(t_in_sphere), ++(obj->sp_size));
 	else
-		obj->sp = ft_realloc(obj->sp, sizeof(t_in_sphere),
-				sizeof(t_in_sphere) * (++(obj->sp_size)));
+	{
+		obj->sp = ft_realloc(obj->sp, sizeof(t_in_sphere) * (obj->sp_size),
+				sizeof(t_in_sphere) * ((obj->sp_size) + 1));
+		++(obj->sp_size);
+	}
 	//input_xyz(fd, &(obj->l->org), &buf);
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
@@ -250,8 +253,11 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 	if (obj->pl == NULL)
 		obj->pl = malloc_array(sizeof(t_in_plane), ++(obj->pl_size));
 	else
-		obj->pl = ft_realloc(obj->pl, sizeof(t_in_plane),
-				sizeof(t_in_plane) * (++(obj->pl_size)));
+	{
+		obj->pl = ft_realloc(obj->pl, sizeof(t_in_plane) * (obj->pl_size),
+				sizeof(t_in_plane) * (obj->pl_size + 1));
+		++(obj->pl_size);
+	}
 	//input_xyz(fd, &(obj->l->org), &buf);
 	input_xyz(fd, &((obj->pl)[obj->pl_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
@@ -268,8 +274,11 @@ void	input_cylinder(int fd, t_in_object *obj, char *buf)
 	if (obj->cy == NULL)
 		obj->cy = malloc_array(sizeof(t_in_cylinder), ++(obj->cy_size));
 	else
-		obj->cy = ft_realloc(obj->cy, sizeof(t_in_cylinder),
-				sizeof(t_in_cylinder) * (++(obj->cy_size)));
+	{
+		obj->cy = ft_realloc(obj->cy, sizeof(t_in_cylinder) * (obj->cy_size),
+				sizeof(t_in_cylinder) * (obj->cy_size + 1));
+		++(obj->cy_size);
+	}
 	//input_xyz(fd, &(obj->l->org), &buf);
 	input_xyz(fd, &((obj->cy)[obj->cy_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);

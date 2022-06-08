@@ -3,6 +3,7 @@
 #include "print.h"
 #include "parsing.h"
 #include "mlx.h"
+#include <stdio.h>
 
 t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 {
@@ -19,6 +20,7 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 		while (++i < in_obj->sp_size)
 		{
 			new = object(SP, sphere(in_obj->sp[i].org, in_obj->sp[i].r), in_obj->sp[i].rgb);
+			printf("%lf\n", in_obj->sp[i].r);
 			obj_add(&objs, new);
 		}
 	}
@@ -50,7 +52,11 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 	// *light = object(POINT_LIGHT, point_light(point3(-3, 10, 0), color3(1, 1, 1), 0.5), color3(0, 0, 0));
 	if (in_obj->l_size > 0)
 	{
-		*light = object(POINT_LIGHT, point_light(in_obj->l->org, in_obj->l->rgb, in_obj->l->ratio), color3(0, 0, 0));
+		i = -1;
+		while (++i < in_obj->l_size)
+		{
+			*light = object(POINT_LIGHT, point_light(in_obj->l->org, in_obj->l->rgb, in_obj->l->ratio), color3(0, 0, 0));
+		}
 	}
 	return (objs);
 }
@@ -62,6 +68,20 @@ t_scene	*scene_init(t_scene *scene, t_in_object *in_obj)
 	scene->camera = camera(&scene->canvas, in_obj->c->org);
 	// scene->camera = camera(&scene->canvas, point3(0, 0, 0));
 	scene->objs = adding_objects(in_obj, &scene->light);
+
+	t_obj *obj;
+	obj = scene->objs;
+	while (obj)
+	{
+		if (obj->type == SP)
+		{
+			// t_point3 center = ((t_sphere *)obj->element)->center;
+			// printf("%lf, %lf, %lf\n", center.x, center.y, center.z);
+			// printf("%lf\n", ((t_sphere *)obj->element)->radius);
+			// printf("--------------\n");
+		}
+		obj = obj->next;
+	}
 	// ka = 0.1;
 	// scene->ambient = vmult(color3(1, 1, 1), ka);
 	return (scene);
