@@ -54,7 +54,7 @@ int	main(void)
 			//ray from camera origin to pixel
 			scene.ray = ray_primary(&scene.camera, u, v);
 			pixel_color = ray_color(&scene);
-			ft_mlx_pixel_put(&scene, &pixel_color, i, j);
+			ft_mlx_pixel_put(&scene, &pixel_color, i, scene.canvas.height - 1 - j);
 			++i;
 		}
 		++j;
