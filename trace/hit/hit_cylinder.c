@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:12 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/09 20:18:32 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/09 21:41:40 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_bool	hit_cylinder_cap(t_obj *obj, t_ray *ray, t_hit_record *rec, double height
 	double		len_ray_at_c;
 
 	cy = (t_cylinder *)obj->element;
-	pc = vmult(cy->normal, height / 2);
+	pc = vmult(cy->normal, height);
 	op = vminus(cy->p, ray->orig);
 	oc = vplus(op, pc);
 	root = vdot(oc, cy->normal) / vdot(ray->dir, cy->normal);
@@ -46,6 +46,16 @@ t_bool	hit_cylinder_cap(t_obj *obj, t_ray *ray, t_hit_record *rec, double height
 	return (TRUE);
 }
 
+t_bool	cylinder_limit(t_cylinder *cy, t_point3 hit_p, double height)
+{
+	double	limit;
+
+	limit = sqrt(cy->radius * cy->radius + height * height);
+	if (vlength(vminus(hit_p, cy->p)) > limit)
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool	hit_cylinder_side(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_cylinder	*cy;
@@ -55,7 +65,7 @@ t_bool	hit_cylinder_side(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	double		discriminant;
 	double		sqrt_d;
 	double		root;
-	// double		hit_height;
+	t_bool		in_height_limit;
 	t_vec3		po;
 	t_vec3		ph;
 
@@ -75,9 +85,11 @@ t_bool	hit_cylinder_side(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		if (root < rec->t_min || root > rec->t_max)
 			return (FALSE);
 	}
-	// hit_height = cy_boundary(cy, ray_at(ray, root));
 	rec->t = root;
 	rec->p = ray_at(ray, root);
+	in_height_limit = cylinder_limit(cy, rec->p, cy->height / 2);
+	if (!in_height_limit)
+		return (FALSE);
 	ph = vminus(rec->p, cy->p);
 	rec->normal = vminus(ph, vmult(cy->normal, vdot(cy->normal, ph)));
 	rec->albedo = obj->albedo;
@@ -90,11 +102,11 @@ t_bool	hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec)
 	t_cylinder	*cy;
 
 	cy = (t_cylinder *)obj->element;
-	if (hit_cylinder_cap(obj, ray, rec, cy->height))
+	if (hit_cylinder_cap(obj, ray, rec, cy->height / 2))
 		return (TRUE);
-	else if (hit_cylinder_cap(obj, ray, rec, -cy->height))
+	else if (hit_cylinder_cap(obj, ray, rec, (-cy->height) / 2))
 		return (TRUE);
-	else if (hit_cylinder_side(obj, ray, rec))
+	if (hit_cylinder_side(obj, ray, rec))
 		return (TRUE);
 	return (FALSE);
 }
