@@ -5,8 +5,8 @@
 
 # define SP 0
 # define PL 1
-# define CY 2
-# define POINT_LIGHT 3
+# define CY 3
+# define POINT_LIGHT 2
 
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
