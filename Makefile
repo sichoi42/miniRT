@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/06/08 19:10:12 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/09 15:55:11 by sichoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ RESET = \033[0m
 CHECK = \033[0;32m\xE2\x9C\x94\033[0m
 
 FUNC = ./draw\
+	./init/init\
 	./print/print\
 	./scene/camera\
 	./scene/canvas\
