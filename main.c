@@ -55,7 +55,7 @@ void	check_str(char *str)
 	{
 		++str;
 		if (*str == '\0' || *str == '.')
-			print_error("Wrong input\n");
+			print_error("Wrong input: not correct number\n");
 	}
 	while (*str != '\0')
 	{
@@ -66,11 +66,11 @@ void	check_str(char *str)
 			if (dot == 0)
 				dot = 1;
 			else
-				print_error("Wrong input\n");
+				print_error("Wrong input: dot only one\n");
 			++str;
 		}
 		else
-			print_error("Wrong input\n");
+			print_error("Wrong input: wrong char\n");
 	}
 }
 
@@ -128,7 +128,7 @@ double	input_ratio(int fd, char *buf)
 
 	num = make_float(fd, buf);
 	if (num < 0.0 || num > 1.0)
-		print_error("Wrong input\n");
+		print_error("Wrong input: ratio range\n");
 	return (num);
 }
 
@@ -154,7 +154,7 @@ void	input_ambient(int fd, t_in_object *obj)
 	if (obj->a == NULL)
 		obj->a = malloc_array(sizeof(t_in_ambient), 1);
 	else
-		print_error("Wrong input\n");
+		print_error("Wrong input: ambient only one\n");
 	obj->a->ratio = input_ratio(fd, &buf);
 	input_color3(fd, &(obj->a->rgb), &buf);
 }
@@ -170,13 +170,13 @@ void	input_vec(int fd, t_vec3 *vec, char *buf)
 {
 	vec->x = make_float(fd, buf);
 	if (vec->x < -1.0 || vec->x > 1.0)
-		print_error("Wrong input\n");
+		print_error("Wrong input: vec range\n");
 	vec->y = make_float(fd, buf);
 	if (vec->y < -1.0 || vec->y > 1.0)
-		print_error("Wrong input\n");
+		print_error("Wrong input: vec range\n");
 	vec->z = make_float(fd, buf);
 	if (vec->z < -1.0 || vec->z > 1.0)
-		print_error("Wrong input\n");
+		print_error("Wrong input: vec range\n");
 }
 
 void	input_camera(int fd, t_in_object *obj)
@@ -186,12 +186,12 @@ void	input_camera(int fd, t_in_object *obj)
 	if (obj->c == NULL)
 		obj->c = malloc_array(sizeof(t_in_camera), 1);
 	else
-		print_error("Wrong input\n");
+		print_error("Wrong input: camera only one\n");
 	input_xyz(fd, &(obj->c->org), &buf);
 	input_vec(fd, &(obj->c->org_vec), &buf);
 	obj->c->fov = make_float(fd, &buf);
 	if (obj->c->fov < 0 || obj->c->fov > 180)
-		print_error("Wrong input\n");
+		print_error("Wrong input: camera fov range\n");
 }
 
 void	input_light(int fd, t_in_object *obj)
@@ -212,7 +212,7 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 {
 	pass_space(fd, buf, " ");
 	if (*buf != 'p')
-		print_error("Wrong input\n");
+		print_error("Wrong input: symbol sphere\n");
 	if (obj->sp == NULL)
 		obj->sp = malloc_array(sizeof(t_in_sphere), ++(obj->sp_size));
 	else
@@ -230,7 +230,7 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 {
 	pass_space(fd, buf, " ");
 	if (*buf != 'l')
-		print_error("Wrong input\n");
+		print_error("Wrong input: symbol plane\n");
 	if (obj->pl == NULL)
 		obj->pl = malloc_array(sizeof(t_in_plane), ++(obj->pl_size));
 	else
@@ -248,7 +248,7 @@ void	input_cylinder(int fd, t_in_object *obj, char *buf)
 {
 	pass_space(fd, buf, " ");
 	if (*buf != 'y')
-		print_error("Wrong input\n");
+		print_error("Wrong input: symbol cylinder\n");
 	if (obj->cy == NULL)
 		obj->cy = malloc_array(sizeof(t_in_cylinder), ++(obj->cy_size));
 	else
@@ -272,10 +272,9 @@ void	input_window(int fd, t_in_object *obj)
 	if (obj->w == NULL)
 		obj->w = malloc_array(sizeof(t_in_window), 1);
 	else
-		print_error("Wrong input\n");
+		print_error("Wrong input: window only one\n");
 
 	str = read_to_str(fd, &buf);
-	printf("str:%s\n", str);
 	obj->w->width = ft_stoi(str);
 	free(str);
 	str = read_to_str(fd, &buf);
@@ -288,7 +287,7 @@ void	init_input_obj2(int fd, t_in_object *obj, char *buf)
 	if (*buf == 'W')
 		input_window(fd, obj);
 	else
-		print_error("Wrong input\n");
+		print_error("Wrong input: symbol\n");
 }
 
 void	init_input_obj(int fd, t_in_object *obj)
@@ -317,7 +316,7 @@ void	init_input_obj(int fd, t_in_object *obj)
 			init_input_obj2(fd, obj, &buf);
 	}
 	if (obj->c == NULL || obj->a == NULL)
-		print_error("Wrong input\n");
+		print_error("Wrong input: not camera or ambient\n");
 }
 
 int	main(int argc, char *argv[])
