@@ -28,6 +28,19 @@ void	draw_loop(t_scene *scene)
 	}
 }
 
+int	key_exit(int param)
+{
+	exit(param);
+	return (0);
+}
+
+int	key_esc(int key)
+{
+	if (key == ESC)
+		key_exit(0);
+	return (0);
+}
+
 void	draw(t_in_object *in_obj)
 {
 	t_scene		scene;
@@ -37,5 +50,7 @@ void	draw(t_in_object *in_obj)
 	init_mlx(&mlx, &scene);
 	draw_loop(&scene);
 	mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.img, 0, 0);
+	mlx_hook(scene.mlx->win_ptr, KEYPRESS, 0, key_esc, NULL);
+	mlx_hook(scene.mlx->win_ptr, DESTROY, 0, key_exit, NULL);
 	mlx_loop(mlx.mlx_ptr);
 }

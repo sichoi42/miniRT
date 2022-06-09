@@ -10,6 +10,10 @@
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
 
+# define KEYPRESS 2
+# define DESTROY 17
+# define ESC 53
+
 typedef int t_bool;
 typedef int t_obj_type;
 
