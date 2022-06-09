@@ -14,7 +14,7 @@
 # include <math.h>
 
 # define OVER_LONG_NUM 9223372036854775808UL
-# define MAX_PRECISION 100000000000000000UL
+# define MAX_PRECISION 1000000000UL
 # define STR_SIZE 512;
 
 struct s_vec3 {

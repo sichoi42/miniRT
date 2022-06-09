@@ -90,10 +90,7 @@ unsigned long long	stof_behind(char *str)
 		while (*str >= '0' && *str <= '9')
 		{
 			if (num >= MAX_PRECISION)
-			{
-				++str;
-				continue ;
-			}
+				print_error("So long decimal\n");
 			num = (num * 10) + *str - '0';
 			++str;
 		}

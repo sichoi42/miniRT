@@ -329,8 +329,10 @@ void	init_input_obj(int fd, t_in_object *obj)
 			input_plane(fd, obj, &buf);
 		else if (buf == 'c')
 			input_cylinder(fd, obj, &buf);
-		if (buf == '\0')
+		else if (buf == '\0')
 			break ;
+		else
+			print_error("Wrong input\n");
 	}
 }
 
