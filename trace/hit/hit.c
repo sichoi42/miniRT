@@ -1,5 +1,17 @@
 #include "trace.h"
 
+t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
+{
+	t_bool	hit_result;
+
+	hit_result = FALSE;
+	if (obj->type == SP)
+		hit_result = hit_sphere(obj, ray, rec);
+	else if (obj->type == PL)
+		hit_result = hit_plane(obj, ray, rec);
+	return (hit_result);
+}
+#include <stdio.h>
 t_bool		hit(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_bool			is_hit;
@@ -18,14 +30,4 @@ t_bool		hit(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		obj = obj->next;
 	}
 	return (is_hit);
-}
-
-t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
-{
-	t_bool	hit_result;
-
-	hit_result = FALSE;
-	if (obj->type == SP)
-		hit_result = hit_sphere(obj, ray, rec);
-	return (hit_result);
 }

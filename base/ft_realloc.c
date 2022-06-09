@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 #include <stdlib.h>
 
 void	*ft_realloc(void *ptr, int ptr_size, int new_size)

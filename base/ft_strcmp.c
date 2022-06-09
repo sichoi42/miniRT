@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 
 /*
  * 왼쪽이 더 크면 양수

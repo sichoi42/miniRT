@@ -4,9 +4,15 @@
 # define FALSE 0
 
 # define SP 0
-# define POINT_LIGHT 1
+# define PL 1
+# define POINT_LIGHT 2
+
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
+
+# define KEYPRESS 2
+# define DESTROY 17
+# define ESC 53
 
 typedef int t_bool;
 typedef int t_obj_type;
@@ -21,6 +27,17 @@ struct s_vec3
 	double y;
 	double z;
 };
+
+typedef struct s_mlx
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_mlx;
 
 typedef struct s_ray
 {
@@ -53,6 +70,12 @@ typedef struct s_sphere
 	double		radius2;
 }	t_sphere;
 
+typedef struct s_plane
+{
+	t_point3	p;
+	t_vec3		normal;
+}	t_plane;
+
 typedef struct s_hit_record
 {
 	t_point3	p;
@@ -66,10 +89,10 @@ typedef struct s_hit_record
 
 typedef struct s_obj
 {
-	t_obj_type	type;
-	void		*element;
-	t_color3	albedo;
-	void		*next;
+	t_obj_type		type;
+	void			*element;
+	t_color3		albedo;
+	struct s_obj	*next;
 }	t_obj;
 
 typedef struct s_light
@@ -81,6 +104,7 @@ typedef struct s_light
 
 typedef struct s_scene
 {
+	t_mlx			*mlx;
 	t_canvas		canvas;
 	t_camera		camera;
 	t_obj			*objs;

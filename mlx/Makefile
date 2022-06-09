@@ -1,59 +1,34 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/05/24 17:49:14 by sichoi           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
-NAME = miniRT
 
-MLX_NAME = libmlx.dylib
-MLX_DIR = ./mlx
-LIB_MLX = $(MLX_DIR)/$(MLX_NAME)
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -03
+MODULE_SRC= mlx_image.swift mlx_window.swift mlx_init.swift
+MODULE_OBJ=$(MODULE_SRC:.swift=.swiftmodule)
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-RESET = \033[0m
-CHECK = \033[0;32m\xE2\x9C\x94\033[0m
+SRC= interface.swift $(MODULE_SRC)
+OBJ=$(SRC:.swift=.o)
 
-FUNC = ./test
+C_SRC= mlx_xpm.c mlx_png.c mlx_string_put.c
+C_OBJ=$(C_SRC:.c=.o)
+CFLAGS=-O3
 
-SRC = $(addsuffix .c, $(FUNC))
-OBJ = $(addsuffix .o, $(FUNC))
+NAME=libmlx.dylib
 
-%.o : %.c
-	@echo "$(NAME): $(GREEN) compiling... $< $(CHECK) $(RESET)"
-	@$(CC) -I $(MLX_DIR) -o $@ -c $<
+INC=-I.
+#OPTI=-Ounchecked
 
-$(NAME) : $(LIB_MLX) $(OBJ)
-	@$(CC) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJ)
-	@echo "$(NAME): $(GREEN) $(NAME) was created! $(CHECK) $(RESET)"
-	@install_name_tool -change libmlx.dylib $(LIB_MLX) $(NAME)
-	@echo "$(NAME): $(GREEN) Completed Setting Path of $(MLX_NAME) $(CHECK) $(RESET)"
+all: $(NAME)
 
-$(LIB_MLX):
-	$(MAKE) -sC $(MLX_DIR)
-	@echo "$(NAME): $(GREEN) $(MLX_NAME) was created! $(CHECK) $(RESET)"
+$(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
+	swiftc $(OPTI) $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz
 
-all : $(NAME)
 
-clean :
-	@$(MAKE) -sC $(MLX_DIR) clean
-	@rm -f $(OBJ)
-	@echo "$(NAME): $(RED) object files deleted $(RESET)"
 
-fclean : clean
-	@rm -f $(LIB_MLX)
-	@echo "$(NAME): $(RED) $(MLX_NAME) was deleted $(RESET)"
-	@rm -f $(NAME)
-	@echo "$(NAME): $(RED) $(NAME) was deleted $(RESET)"
+%.o: %.swift
+	swiftc $(OPTI) $(INC) -parse-as-library -c $< -o $@
 
-re : fclean all
+%.swiftmodule: %.swift
+	swiftc $(OPTI) $(INC) -parse-as-library -c $< -o $@ -emit-module -module-name $(patsubst %.swift,%,$<) -module-link-name $(patsubst %.swift,%,$<)
+
+clean:
+	rm -f $(NAME) $(OBJ) $(MODULE_OBJ) $(C_OBJ) *.swiftdoc *~
+

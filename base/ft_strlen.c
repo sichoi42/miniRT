@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "parsing.h"
 
 int	ft_strlen_c(char *str, char c)
 {
