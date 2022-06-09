@@ -5,7 +5,8 @@
 
 # define SP 0
 # define PL 1
-# define POINT_LIGHT 2
+# define CY 2
+# define POINT_LIGHT 3
 
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
@@ -75,6 +76,14 @@ typedef struct s_plane
 	t_point3	p;
 	t_vec3		normal;
 }	t_plane;
+
+typedef struct s_cylinder
+{
+	t_point3	p;
+	t_vec3		normal;
+	double		radius;
+	double		height;
+}	t_cylinder;
 
 typedef struct s_hit_record
 {

@@ -30,6 +30,9 @@ t_bool		hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec);
 // hit_plane.c
 t_bool		hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec);
 
+// hit_cylinder.c
+t_bool		hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec);
+
 // normal.c
 void		set_face_normal(t_ray *ray, t_hit_record *rec);
 

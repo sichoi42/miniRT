@@ -240,7 +240,7 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 	//input_xyz(fd, &(obj->l->org), &buf);
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
-	(obj->sp)[obj->sp_size - 1].r = make_float(fd, buf);
+	(obj->sp)[obj->sp_size - 1].r = make_float(fd, buf) / 2;
 	//input_color3(fd, &(obj->l->rgb), &buf);
 	input_color3(fd, &((obj->sp)[obj->sp_size - 1].rgb), buf);
 }
@@ -283,7 +283,7 @@ void	input_cylinder(int fd, t_in_object *obj, char *buf)
 	input_xyz(fd, &((obj->cy)[obj->cy_size - 1].org), buf);
 	//obj->l->ratio = input_ratio(fd, &buf);
 	input_vec(fd, &((obj->cy)[obj->cy_size - 1].org_vec), buf);
-	obj->cy[obj->cy_size - 1].r = make_float(fd, buf);
+	obj->cy[obj->cy_size - 1].r = make_float(fd, buf) / 2;
 	obj->cy[obj->cy_size - 1].h = make_float(fd, buf);
 	//input_color3(fd, &(obj->l->rgb), &buf);
 	input_color3(fd, &((obj->cy)[obj->cy_size - 1].rgb), buf);

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:53:35 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/09 15:55:53 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/09 20:27:11 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 	// 	i = -1;
 	// 	while (++i < in_obj->cy_size)
 	// 	{
-	// 		new = object(PL, plane(in_obj->pl[i].org, in_obj->pl[i].org_vec), in_obj->pl[i].rgb);
+	// 		new = object(CY, cylinder(in_obj->cy[i].org, in_obj->cy[i].org_vec, in_obj->cy[i].r, in_obj->cy[i].h), in_obj->cy[i].rgb);
 	// 		obj_add(&objs, new);
 	// 	}
-	//}
+	// }
 	// LIGHT
 	if (in_obj->l_size > 0)
 	{

@@ -40,6 +40,20 @@ t_plane	*plane(t_point3 p, t_vec3 normal)
 	return (pl);
 }
 
+t_cylinder	*cylinder(t_point3 p, t_vec3 normal, double radius, double height)
+{
+	t_cylinder	*cy;
+
+	cy = malloc(sizeof(t_cylinder));
+	if (cy == NULL)
+		exit(1);
+	cy->p = p;
+	cy->normal = normal;
+	cy->radius = radius;
+	cy->height = height;
+	return (cy);
+}
+
 t_light	*point_light(t_point3 orig, t_color3 color, double ratio)
 {
 	t_light	*light;
