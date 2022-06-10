@@ -19,24 +19,6 @@ static void	check_minus(char *str, size_t *index, int *is_minus)
 	}
 	if (temp != *index && *str == '.')
 		print_error("Wrong input\n");
-	/*
-	char	*temp;
-
-	temp = str;
-	if (**str == '-')
-	{
-		++str;
-		*is_minus = 1;
-	}
-	else
-	{
-		if (*str == '+')
-			++str;
-		*is_minus = 0;
-	}
-	if (temp != str && *str == '.')
-		print_error("Wrong input\n");
-		*/
 }
 
 unsigned long long	stof_front(char *str)
@@ -60,22 +42,6 @@ unsigned long long	stof_front(char *str)
 	else if (is_minus == 1)
 		num *= -1;
 	return (num);
-	/*
-	check_minus(&str, &is_minus);
-	num = 0;
-	while (*str >= '0' && *str <= '9')
-	{
-		num = (num * 10) + *str - '0';
-		if (num >= OVER_LONG_NUM)
-			print_error("Wrong input\n");
-		++str;
-	}
-	if (is_minus == 1 && num > OVER_LONG_NUM)
-		print_error("Wrong input\n");
-	else if (is_minus == 1)
-		num *= -1;
-	return (num);
-	*/
 }
 
 unsigned long long	stof_behind(char *str)
@@ -90,10 +56,7 @@ unsigned long long	stof_behind(char *str)
 		while (*str >= '0' && *str <= '9')
 		{
 			if (num >= MAX_PRECISION)
-			{
-				++str;
-				continue ;
-			}
+				print_error("So long decimal\n");
 			num = (num * 10) + *str - '0';
 			++str;
 		}
@@ -117,5 +80,30 @@ int	stoi_rgb(char *str)
 			print_error("Wrong input\n");
 		++str;
 	}
+	return (num);
+}
+
+int	ft_stoi(char *str)
+{
+	long	num;
+	int		is_minus;
+	size_t	i;
+
+	i = 0;
+	check_minus(str, &i, &is_minus);
+	num = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] < '0' || str[i] > '9')
+			print_error("Wrong input\n");
+		num = (num * 10) + str[i] - '0';
+		if (num >= OVER_INT_NUM)
+			print_error("Wrong input\n");
+		++i;
+	}
+	if (is_minus == 1 && num > OVER_INT_NUM)
+		print_error("Wrong input\n");
+	if (is_minus == 1)
+		num *= -1;
 	return (num);
 }
