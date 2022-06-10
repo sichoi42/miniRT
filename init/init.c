@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 15:53:35 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/09 20:41:59 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/10 18:21:32 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,17 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 	return (objs);
 }
 
+void	free_in_object(t_in_object *o)
+{
+	free(o->w);
+	free(o->a);
+	free(o->c);
+	free(o->l);
+	free(o->sp);
+	free(o->pl);
+	free(o->cy);
+}
+
 void	init_scene(t_scene *scene, t_in_object *in_obj)
 {
 	scene->canvas = canvas(1600, 900);
@@ -70,6 +81,7 @@ void	init_scene(t_scene *scene, t_in_object *in_obj)
 	scene->camera = camera(&scene->canvas, in_obj->c->org);
 	scene->light = NULL;
 	scene->objs = adding_objects(in_obj, &scene->light);
+	free_in_object(in_obj);
 }
 
 void	init_mlx(t_mlx *mlx, t_scene *scene)

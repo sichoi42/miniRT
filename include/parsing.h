@@ -15,8 +15,14 @@
 # include "structures.h"
 
 # define OVER_LONG_NUM 9223372036854775808UL
-# define MAX_PRECISION 100000000000000000UL
+# define OVER_INT_NUM 2147483648
+# define MAX_PRECISION 1000000000UL
 # define STR_SIZE 512;
+
+typedef struct s_in_window {
+	int	width;
+	int	height;
+}	t_in_window;
 
 typedef struct s_in_ambient {
 	double		ratio;/* [0.0, 1.0] */
@@ -56,6 +62,7 @@ typedef struct s_in_cylinder {
 }	t_in_cylinder;
 
 typedef struct s_in_object {
+	t_in_window		*w;
 	t_in_ambient	*a;
 	t_in_camera		*c;
 	t_in_light		*l;
@@ -79,5 +86,6 @@ int					ft_read(int fd, char *buf, int size);
 unsigned long long	stof_front(char *str);
 unsigned long long	stof_behind(char *str);
 int					stoi_rgb(char *str);
+int					ft_stoi(char *str);
 
 #endif
