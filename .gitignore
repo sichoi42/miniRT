@@ -1,3 +1,7 @@
 miniRT
 *.o
 .vscode
+*.dylib
+*.swiftdoc
+*.swiftmodule
+*.swiftsourceinfo

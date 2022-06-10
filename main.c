@@ -273,7 +273,6 @@ void	input_window(int fd, t_in_object *obj)
 		obj->w = malloc_array(sizeof(t_in_window), 1);
 	else
 		print_error("Wrong input: window only one\n");
-
 	str = read_to_str(fd, &buf);
 	obj->w->width = ft_stoi(str);
 	free(str);

@@ -3,6 +3,9 @@
 # define TRUE 1
 # define FALSE 0
 
+# define DEFAULT_WINDOW_W 1600
+# define DEFAULT_WINDOW_H 900
+
 # define SP 0
 # define PL 1
 # define CY 3
@@ -11,6 +14,7 @@
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
 
+// Defined for mlx key
 # define KEYPRESS 2
 # define DESTROY 17
 # define ESC 53
