@@ -1,4 +1,6 @@
 #include "structures.h"
+#include "parsing.h"
+#include "utils.h"
 #include <stdlib.h>
 
 t_obj	*object(t_obj_type type, void *element, t_color3 albedo)
@@ -40,7 +42,7 @@ t_plane	*plane(t_point3 p, t_vec3 normal)
 	return (pl);
 }
 
-t_cylinder	*cylinder(t_point3 p, t_vec3 normal, double radius, double height)
+t_cylinder	*cylinder(t_point3 p, t_point3 n, double radius, double height)
 {
 	t_cylinder	*cy;
 
@@ -48,9 +50,11 @@ t_cylinder	*cylinder(t_point3 p, t_vec3 normal, double radius, double height)
 	if (cy == NULL)
 		exit(1);
 	cy->p = p;
-	cy->normal = normal;
+	cy->normal = n;
 	cy->radius = radius;
 	cy->height = height;
+	cy->tc = vplus(p, vmult(cy->normal, cy->height / 2));
+	cy->bc = vplus(p, vmult(cy->normal, -(cy->height) / 2));
 	return (cy);
 }
 

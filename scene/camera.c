@@ -30,7 +30,18 @@ t_camera	camera(t_canvas *canvas, t_in_camera *in_cam)
 	double		theta;
 	double		h;
 
-	v_up = vec3(0, 1, 0);
+	cam.dir = in_cam->org_vec;
+	printf("%lf %lf %lf\n", cam.dir.x, cam.dir.y, cam.dir.z);
+	// if (cam.dir.x != 0 && cam.dir.y == 0 && cam.dir.z == 0)
+	// 	v_up = vec3(1, 0, 0);
+	// else if (cam.dir.x == 0 && cam.dir.y != 0 && cam.dir.z == 0)
+	// {
+	// 	v_up = vec3(0, 1, 0);
+	// }
+	// else if (cam.dir.x == 0 && cam.dir.y == 0 && cam.dir.z != 0)
+	// 	v_up = vec3(0, 0, 1);
+	// else
+		v_up = vec3(0, 1, 0);
 	theta = degree_to_radian(in_cam->fov);
 	h = tan(theta / 2.0);
 	viewport_height = 2.0 * h;
@@ -38,7 +49,6 @@ t_camera	camera(t_canvas *canvas, t_in_camera *in_cam)
 	cam.viewport_h = viewport_height;
 	cam.viewport_w = viewport_height * canvas->aspect_ratio;
 	cam.orig = in_cam->org;
-	cam.dir = in_cam->org_vec;
 	cam.w = vunit(vmult(cam.dir, -1));
 	cam.u = vunit(vcross(v_up, cam.w));
 	cam.v = vcross(cam.w, cam.u);

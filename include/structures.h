@@ -92,6 +92,9 @@ typedef struct s_cylinder
 	t_vec3		normal;
 	double		radius;
 	double		height;
+	t_vec3		op;
+	t_vec3		tc;
+	t_vec3		bc;
 }	t_cylinder;
 
 typedef struct s_hit_record
