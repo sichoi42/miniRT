@@ -161,6 +161,23 @@ t_vec3	vmin(t_vec3 vec, t_vec3 vec2)
 	return (vec);
 }
 
+t_bool	is_same_vec(t_vec3 vec, t_vec3 vec2)
+{
+	if (vec.x == vec2.x && vec.y == vec2.y && vec.z == vec2.z)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_vec3	vflip(t_vec3 vec)
+{
+	t_vec3	flip;
+
+	flip.x = -vec.x;
+	flip.y = -vec.y;
+	flip.z = -vec.z;
+	return (flip);
+}
+
 double	degree_to_radian(double degree)
 {
 	return (M_PI * degree / 180.0);

@@ -22,6 +22,8 @@ t_vec3      vdivide(t_vec3 vec, double t);
 double		vdot(t_vec3 vec, t_vec3 vec2);
 t_vec3		vcross(t_vec3 vec, t_vec3 vec2);
 t_vec3		vunit(t_vec3 vec);
+t_bool		is_same_vec(t_vec3 vec, t_vec3 vec2);
+t_vec3		vflip(t_vec3 vec);
 t_vec3		vmin(t_vec3 vec, t_vec3 vec2);
 double		degree_to_radian(double degree);
 double		radian_to_degree(double radian);
