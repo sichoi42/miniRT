@@ -73,6 +73,8 @@ typedef struct s_canvas
 	double	aspect_ratio; // 종횡비
 }	t_canvas;
 
+// Structures for objs
+
 typedef struct s_sphere
 {
 	t_point3	center;
@@ -97,6 +99,21 @@ typedef struct s_cylinder
 	t_vec3		bc;
 }	t_cylinder;
 
+typedef struct s_light
+{
+	t_point3	orig;
+	t_color3	light_color;
+	double		bright_ratio;
+}	t_light;
+
+typedef struct s_obj
+{
+	t_obj_type		type;
+	void			*element;
+	t_color3		albedo;
+	struct s_obj	*next;
+}	t_obj;
+
 typedef struct s_hit_record
 {
 	t_point3	p;
@@ -108,20 +125,14 @@ typedef struct s_hit_record
 	t_color3	albedo;
 }	t_hit_record;
 
-typedef struct s_obj
+typedef struct s_discrim
 {
-	t_obj_type		type;
-	void			*element;
-	t_color3		albedo;
-	struct s_obj	*next;
-}	t_obj;
-
-typedef struct s_light
-{
-	t_point3	orig;
-	t_color3	light_color;
-	double		bright_ratio;
-}	t_light;
+	double	a;
+	double	half_b;
+	double	c;
+	double	discriminant;
+	double	sqrt_d;
+}	t_discrim;
 
 typedef struct s_scene
 {

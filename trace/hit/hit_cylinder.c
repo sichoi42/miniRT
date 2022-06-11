@@ -6,12 +6,11 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:12 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/11 17:33:40 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/11 18:03:26 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
-#include "util.h"
 #include "trace.h"
 
 t_bool	cylinder_limit(t_cylinder *cy, t_point3 hit_p, double height)
@@ -26,27 +25,23 @@ t_bool	cylinder_limit(t_cylinder *cy, t_point3 hit_p, double height)
 
 double	hit_cylinder_side(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 {
-	double		a;
-	double		half_b;
-	double		c;
-	double		discriminant;
-	double		sqrt_d;
+	t_discrim	d;
 	double		root;
 	t_vec3		po;
 	t_point3	h;
 
 	po = vminus(ray->orig, cy->p);
-	a = vlength2(vcross(ray->dir, cy->normal));
-	half_b = vdot(vcross(ray->dir, cy->normal), vcross(po, cy->normal));
-	c = vlength2(vcross(po, cy->normal)) - cy->radius * cy->radius;
-	discriminant = half_b * half_b - a * c;
-	if (discriminant < EPSILON)
+	d.a = vlength2(vcross(ray->dir, cy->normal));
+	d.half_b = vdot(vcross(ray->dir, cy->normal), vcross(po, cy->normal));
+	d.c = vlength2(vcross(po, cy->normal)) - cy->radius * cy->radius;
+	d.discriminant = d.half_b * d.half_b - d.a * d.c;
+	if (d.discriminant < EPSILON)
 		return (INFINITY);
-	sqrt_d = sqrt(discriminant);
-	root = (-half_b - sqrt_d) / a;
+	d.sqrt_d = sqrt(d.discriminant);
+	root = (-d.half_b - d.sqrt_d) / d.a;
 	if (root < rec->t_min || root > rec->t_max)
 	{
-		root = (-half_b + sqrt_d) / a;
+		root = (-d.half_b + d.sqrt_d) / d.a;
 		if (root < rec->t_min || root > rec->t_max)
 			return (INFINITY);
 	}
@@ -60,8 +55,8 @@ double	hit_cylinder_side(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 
 double hit_cylinder_cap(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 {
-	t_vec3	tv;
-	t_vec3	bv;
+	t_vec3	ot;
+	t_vec3	ob;
 	double	denom;
 	double	tt;
 	double	bt;
@@ -69,12 +64,12 @@ double hit_cylinder_cap(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 	denom = vdot(ray->dir, cy->normal);
 	if (denom == 0)
 		return (INFINITY);
-	tv = vminus(cy->tc, ray->orig);
-	tt = vdot(tv, cy->normal) / denom;
+	ot = vminus(cy->tc, ray->orig);
+	tt = vdot(ot, cy->normal) / denom;
 	if (vlength2(vminus(ray_at(ray, tt), cy->tc)) > cy->radius * cy->radius)
 		tt = INFINITY;
-	bv = vminus(cy->bc, ray->orig);
-	bt = vdot(bv, cy->normal) / denom;
+	ob = vminus(cy->bc, ray->orig);
+	bt = vdot(ob, cy->normal) / denom;
 	if (vlength2(vminus(ray_at(ray, bt), cy->bc)) > cy->radius * cy->radius)
 		bt = INFINITY;
 	if (tt < rec->t_min || tt > rec->t_max)
@@ -112,5 +107,6 @@ t_bool	hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec)
 		rec->normal = cy->normal;
 	}
 	set_face_normal(ray, rec);
+	rec->albedo = obj->albedo;
 	return (TRUE);
 }
