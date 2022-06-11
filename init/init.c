@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/10 18:44:15 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/11 12:58:27 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	init_scene(t_scene *scene, t_in_object *in_obj)
 	else
 		scene->canvas = canvas(in_obj->w->width, in_obj->w->height);
 	scene->ambient = vmult(in_obj->a->rgb, in_obj->a->ratio);
-	scene->camera = camera(&scene->canvas, in_obj->c->org);
+	scene->camera = camera(&scene->canvas, in_obj->c);
 	scene->light = NULL;
 	scene->objs = adding_objects(in_obj, &scene->light);
 	free_in_object(in_obj);

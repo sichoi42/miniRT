@@ -59,6 +59,11 @@ typedef	struct s_camera
 	t_vec3		vertical; // 수직길이 Vector
 	double		focal_len;
 	t_point3	left_bottom;
+	t_vec3		dir;
+	t_vec3		u;
+	t_vec3		v;
+	t_vec3		w;
+	double		fov;
 }	t_camera;
 
 typedef struct s_canvas
