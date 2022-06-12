@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/11 16:34:05 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/13 00:15:03 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 			obj_add(&objs, new);
 		}
 	}
+	// CONE
+	new = object(CO, cone(point3(0, 0, -5), vec3(0, 1, 0), 30.0, 3), color3(1, 0, 1));
+	obj_add(&objs, new);
 	// LIGHT
 	if (in_obj->l_size > 0)
 	{

@@ -8,8 +8,9 @@
 
 # define SP 0
 # define PL 1
-# define CY 3
-# define POINT_LIGHT 2
+# define CY 2
+# define CO 3
+# define POINT_LIGHT 4
 
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
@@ -98,6 +99,23 @@ typedef struct s_cylinder
 	t_vec3		tc;
 	t_vec3		bc;
 }	t_cylinder;
+
+typedef struct s_cone
+{
+	double		a;
+	double		h;
+	double		r;
+	double		cos2;
+	double		sin2;
+	t_point3	p;
+	t_vec3		n;
+	t_vec3		flip_n;
+	t_point3	t;
+	double		c1;
+	double		c2;
+	// double		c3;
+	// t_vec3		c4;
+}	t_cone;
 
 typedef struct s_light
 {
