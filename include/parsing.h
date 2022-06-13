@@ -61,6 +61,14 @@ typedef struct s_in_cylinder {
 	t_color3	rgb;/*[0,255]*/
 }	t_in_cylinder;
 
+typedef struct s_in_cone {
+	t_point3	org;
+	t_vec3		org_vec;/*[-1,1]*/
+	double		h;
+	double		a;/*(0, 90)*/
+	t_color3	rgb;
+}	t_in_cone;
+
 typedef struct s_in_object {
 	t_in_window		*w;
 	t_in_ambient	*a;
@@ -69,10 +77,12 @@ typedef struct s_in_object {
 	t_in_sphere		*sp;
 	t_in_plane		*pl;
 	t_in_cylinder	*cy;
+	t_in_cone		*co;
 	int				l_size;
 	int				sp_size;
 	int				pl_size;
 	int				cy_size;
+	int				co_size;
 }	t_in_object;
 
 /* base */
