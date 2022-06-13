@@ -21,6 +21,7 @@ t_color3	phong_lighting(t_scene *scene);
 // -----in hit folder-----
 
 // hit.c
+double		validate_root(t_discrim d, t_hit_record *rec);
 t_bool		hit(t_obj *obj, t_ray *ray, t_hit_record *rec);
 t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec);
 
@@ -32,6 +33,9 @@ t_bool		hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec);
 
 // hit_cylinder.c
 t_bool		hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec);
+
+// hit_cone.c
+t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record * rec);
 
 // normal.c
 void		set_face_normal(t_ray *ray, t_hit_record *rec);

@@ -1,5 +1,19 @@
 #include "trace.h"
 
+double		validate_root(t_discrim d, t_hit_record *rec)
+{
+	double	root;
+
+	root = (-d.half_b - d.sqrt_d) / d.a;
+	if (root < rec->t_min || root > rec->t_max)
+	{
+		root = (-d.half_b + d.sqrt_d) / d.a;
+		if (root < rec->t_min || root > rec->t_max)
+			return (INFINITY);
+	}
+	return (root);
+}
+
 t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_bool	hit_result;
@@ -11,6 +25,8 @@ t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		hit_result = hit_plane(obj, ray, rec);
 	else if (obj->type == CY)
 		hit_result = hit_cylinder(obj, ray, rec);
+	else if (obj->type == CO)
+		hit_result = hit_cone(obj, ray, rec);
 	return (hit_result);
 }
 

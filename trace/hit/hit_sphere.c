@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:24 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/09 16:36:24 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/11 18:05:27 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,22 @@ t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_vec3		oc; // 구의 중심 벡터.
 	t_sphere	*sp;
-	double		a, c;
-	double		half_b;
-	double		discriminant;
-	double		sqrt_d;
+	t_discrim	d;
 	double		root;
 
 	sp = (t_sphere *)obj->element;
 	oc = vminus(ray->orig, sp->center);
-	a = vlength2(ray->dir);
-	half_b = vdot(oc, ray->dir);
-	c = vlength2(oc) - sp->radius2;
-	discriminant = half_b * half_b - a * c;
-	if (discriminant < EPSILON)
+	d.a = vlength2(ray->dir);
+	d.half_b = vdot(oc, ray->dir);
+	d.c = vlength2(oc) - sp->radius2;
+	d.discriminant = d.half_b * d.half_b - d.a * d.c;
+	if (d.discriminant < EPSILON)
 		return (FALSE);
-	sqrt_d = sqrt(discriminant);
-	root = (-half_b - sqrt_d) / a;
+	d.sqrt_d = sqrt(d.discriminant);
+	root = (-d.half_b - d.sqrt_d) / d.a;
 	if (root < rec->t_min || root > rec->t_max)
 	{
-		root = (-half_b + sqrt_d) / a;
+		root = (-d.half_b + d.sqrt_d) / d.a;
 		if (root < rec->t_min || root > rec->t_max)
 			return (FALSE);
 	}

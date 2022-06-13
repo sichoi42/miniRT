@@ -139,6 +139,7 @@ t_vec3	vunit(t_vec3 vec)
 	double len = vlength(vec);
 	if (len == 0)
 	{
+		printf("%lf %lf %lf\n", vec.x, vec.y, vec.z);
 		printf("Error\n:Devider is 0");
 		exit(0);
 	}
@@ -158,4 +159,31 @@ t_vec3	vmin(t_vec3 vec, t_vec3 vec2)
 	if (vec.z > vec2.z)
 		vec.z = vec2.z;
 	return (vec);
+}
+
+t_bool	is_same_vec(t_vec3 vec, t_vec3 vec2)
+{
+	if (vec.x == vec2.x && vec.y == vec2.y && vec.z == vec2.z)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_vec3	vflip(t_vec3 vec)
+{
+	t_vec3	flip;
+
+	flip.x = -vec.x;
+	flip.y = -vec.y;
+	flip.z = -vec.z;
+	return (flip);
+}
+
+double	degree_to_radian(double degree)
+{
+	return (M_PI * degree / 180.0);
+}
+
+double	radian_to_degree(double radian)
+{
+	return (180.0 * radian / M_PI);
 }

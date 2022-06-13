@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/10 18:44:15 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/13 20:30:27 by swi              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 			obj_add(&objs, new);
 		}
 	}
+	// CONE
+	// new = object(CO, cone(point3(0, 0, -5), vec3(0, 1, 0), 30.0, 3), color3(1, 0, 1));
+	// obj_add(&objs, new);
 	// LIGHT
 	if (in_obj->l_size > 0)
 	{
@@ -71,7 +74,7 @@ void	free_in_object(t_in_object *o)
 	free(o->l);
 	free(o->sp);
 	free(o->pl);
-	free(o->cy);
+	free(o->co);
 }
 
 void	init_scene(t_scene *scene, t_in_object *in_obj)
@@ -81,7 +84,7 @@ void	init_scene(t_scene *scene, t_in_object *in_obj)
 	else
 		scene->canvas = canvas(in_obj->w->width, in_obj->w->height);
 	scene->ambient = vmult(in_obj->a->rgb, in_obj->a->ratio);
-	scene->camera = camera(&scene->canvas, in_obj->c->org);
+	scene->camera = camera(&scene->canvas, in_obj->c);
 	scene->light = NULL;
 	scene->objs = adding_objects(in_obj, &scene->light);
 	free_in_object(in_obj);

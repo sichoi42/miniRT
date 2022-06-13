@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/06/09 20:16:49 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/12 18:29:26 by sichoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ FUNC = ./draw\
 	./trace/hit/hit_plane\
 	./trace/hit/hit_sphere\
 	./trace/hit/hit_cylinder\
+	./trace/hit/hit_cone\
 	./trace/ray/ray\
 	./trace/ray/phong_lighting\
 	./utils/obj_utils\

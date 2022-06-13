@@ -41,8 +41,8 @@ t_color3	get_point_light(t_scene *scene, t_light *light)
 	light_dir = vunit(light_dir);
 	kd = fmax(vdot(light_dir, scene->rec.normal), 0.0);
 	diffuse = vmult(light->light_color, kd);
-	view_dir = vunit(vmult(scene->ray.dir, -1));
-	reflect_dir = reflect(vmult(light_dir, -1), scene->rec.normal);
+	view_dir = vunit(vflip(scene->ray.dir));
+	reflect_dir = reflect(vflip(light_dir), scene->rec.normal);
 	ksn = 64; // shininess value, 이 값이 작을수록 주변으로 퍼짐.
 	ks = 0.5; // specular strength, 이 값이 1에 가까울수록 specular로 인한 효과가 커짐.
 	spec = pow(fmax(vdot(view_dir, reflect_dir), 0.0), ksn);

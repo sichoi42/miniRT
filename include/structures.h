@@ -8,8 +8,9 @@
 
 # define SP 0
 # define PL 1
-# define CY 3
-# define POINT_LIGHT 2
+# define CY 2
+# define CO 3
+# define POINT_LIGHT 4
 
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
@@ -59,6 +60,11 @@ typedef	struct s_camera
 	t_vec3		vertical; // 수직길이 Vector
 	double		focal_len;
 	t_point3	left_bottom;
+	t_vec3		dir;
+	t_vec3		u;
+	t_vec3		v;
+	t_vec3		w;
+	double		fov;
 }	t_camera;
 
 typedef struct s_canvas
@@ -67,6 +73,8 @@ typedef struct s_canvas
 	int		height;
 	double	aspect_ratio; // 종횡비
 }	t_canvas;
+
+// Structures for objs
 
 typedef struct s_sphere
 {
@@ -87,7 +95,44 @@ typedef struct s_cylinder
 	t_vec3		normal;
 	double		radius;
 	double		height;
+	t_vec3		op;
+	t_vec3		tc;
+	t_vec3		bc;
 }	t_cylinder;
+
+typedef struct s_cone
+{
+	double		a;
+	double		h;
+	double		r;
+	double		cos;
+	double		sin;
+	double		cos2;
+	double		sin2;
+	t_point3	p;
+	t_vec3		n;
+	t_vec3		flip_n;
+	t_point3	t;
+	double		c1;
+	double		c2;
+	// double		c3;
+	// t_vec3		c4;
+}	t_cone;
+
+typedef struct s_light
+{
+	t_point3	orig;
+	t_color3	light_color;
+	double		bright_ratio;
+}	t_light;
+
+typedef struct s_obj
+{
+	t_obj_type		type;
+	void			*element;
+	t_color3		albedo;
+	struct s_obj	*next;
+}	t_obj;
 
 typedef struct s_hit_record
 {
@@ -100,20 +145,14 @@ typedef struct s_hit_record
 	t_color3	albedo;
 }	t_hit_record;
 
-typedef struct s_obj
+typedef struct s_discrim
 {
-	t_obj_type		type;
-	void			*element;
-	t_color3		albedo;
-	struct s_obj	*next;
-}	t_obj;
-
-typedef struct s_light
-{
-	t_point3	orig;
-	t_color3	light_color;
-	double		bright_ratio;
-}	t_light;
+	double	a;
+	double	half_b;
+	double	c;
+	double	discriminant;
+	double	sqrt_d;
+}	t_discrim;
 
 typedef struct s_scene
 {
