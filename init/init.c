@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/13 20:37:09 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/13 20:30:27 by swi              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	free_in_object(t_in_object *o)
 	free(o->l);
 	free(o->sp);
 	free(o->pl);
-	free(o->cy);
+	free(o->co);
 }
 
 void	init_scene(t_scene *scene, t_in_object *in_obj)

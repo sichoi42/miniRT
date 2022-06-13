@@ -190,7 +190,7 @@ void	input_camera(int fd, t_in_object *obj)
 	input_xyz(fd, &(obj->c->org), &buf);
 	input_vec(fd, &(obj->c->org_vec), &buf);
 	obj->c->fov = make_float(fd, &buf);
-	if (obj->c->fov < 0 || obj->c->fov > 180)
+	if (obj->c->fov <= 0 || obj->c->fov >= 180)
 		print_error("Wrong input: camera fov range\n");
 }
 
@@ -244,9 +244,33 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 	input_color3(fd, &((obj->pl)[obj->pl_size - 1].rgb), buf);
 }
 
+void	input_cone(int fd, t_in_object *obj, char *buf)
+{
+	if (obj->co == NULL)
+		obj->co = malloc_array(sizeof(t_in_cone), ++(obj->co_size));
+	else
+	{
+		obj->co = ft_realloc(obj->co, sizeof(t_in_cone) * (obj->co_size),
+				sizeof(t_in_cone) * (obj->co_size + 1));
+		++(obj->co_size);
+	}
+	input_xyz(fd, &((obj->co)[obj->co_size - 1].org), buf);
+	input_vec(fd, &((obj->co)[obj->co_size - 1].org_vec), buf);
+	obj->co[obj->co_size - 1].h = make_float(fd, buf);
+	obj->co[obj->co_size - 1].a = make_float(fd, buf);
+	if (obj->co[obj->co_size - 1].a <= 0 || obj->co[obj->co_size - 1].a >= 90)
+		print_error("Wrong input: angle 0~90\n");
+	input_color3(fd, &((obj->co)[obj->co_size - 1].rgb), buf);
+}
+
 void	input_cylinder(int fd, t_in_object *obj, char *buf)
 {
 	pass_space(fd, buf, " ");
+	if (*buf == 'o')
+	{
+		input_cone(fd, obj, buf);
+		return ;
+	}
 	if (*buf != 'y')
 		print_error("Wrong input: symbol cylinder\n");
 	if (obj->cy == NULL)
@@ -281,18 +305,17 @@ void	input_window(int fd, t_in_object *obj)
 	free(str);
 }
 
-void	gogo(int fd, char *buf)
+void	next_line(int fd, char *buf)
 {
-	int size;
+	int	size;
 
 	size = ft_read(fd, buf, 1);
 	while (size == 1)
 	{
-		printf("%c", *buf);
 		if (*buf != '\n')
 		{
 			if (*buf == '\0')
-				return ;
+				break ;
 			size = ft_read(fd, buf, 1);
 			continue ;
 		}
@@ -308,7 +331,7 @@ void	init_input_obj2(int fd, t_in_object *obj, char *buf)
 	if (*buf == 'W')
 		input_window(fd, obj);
 	else if (*buf == '#')
-		gogo(fd, buf);
+		next_line(fd, buf);
 	else
 		print_error("Wrong input: symbol\n");
 }
