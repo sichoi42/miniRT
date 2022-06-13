@@ -244,12 +244,31 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 	input_color3(fd, &((obj->pl)[obj->pl_size - 1].rgb), buf);
 }
 
+void	input_cone(int fd, t_in_object *obj, char *buf)
+{
+	if (obj->co == NULL)
+		obj->co = malloc_array(sizeof(t_in_cone), ++(obj->co_size));
+	else
+	{
+		obj->co = ft_realloc(obj->co, sizeof(t_in_cone) * (obj->co_size),
+				sizeof(t_in_cone) * (obj->co_size + 1));
+		++(obj->co_size);
+	}
+	input_xyz(fd, &((obj->co)[obj->co_size - 1].org), buf);
+	input_vec(fd, &((obj->co)[obj->co_size - 1].org_vec), buf);
+	obj->co[obj->co_size - 1].h = make_float(fd, buf);
+	obj->co[obj->co_size - 1].a = make_float(fd, buf);
+	if (obj->co[obj->co_size - 1].a <= 0 || obj->co[obj->co_size - 1].a >= 90)
+		print_error("Wrong input: angle 0~90\n");
+	input_color3(fd, &((obj->co)[obj->co_size - 1].rgb), buf);
+}
+
 void	input_cylinder(int fd, t_in_object *obj, char *buf)
 {
 	pass_space(fd, buf, " ");
 	if (*buf == 'o')
 	{
-		input_cone(int fd, t_in_object *obj);
+		input_cone(fd, obj, buf);
 		return ;
 	}
 	if (*buf != 'y')
@@ -305,25 +324,6 @@ void	next_line(int fd, char *buf)
 	}
 	if (size == 0)
 		*buf = '\0';
-}
-
-void	input_cone(int fd, t_in_object *obj)
-{
-	if (obj->co == NULL)
-		obj->co = malloc_array(sizeof(t_in_cone), ++(obj->co_size));
-	else
-	{
-		obj->co = ft_realloc(obj->co, sizeof(t_in_cone) * (obj->co_size),
-				sizeof(t_in_cone) * (obj->co_size + 1));
-		++(obj->co_size);
-	}
-	input_xyz(fd, &((obj->co)[obj->co_size - 1].org), buf);
-	input_vec(fd, &((obj->co)[obj->co_size - 1].org_vec), buf);
-	obj->co[obj->co_size - 1].h = make_float(fd, buf);
-	obj->co[obj->co_size - 1].a = make_float(fd, buf);
-	if (obj->co[obj->co_size - 1].a <= 0 || obj->co[obj->co_size - 1].a >= 90)
-		print_error("Wrong input: angle 0~90\n");
-	input_color3(fd, &((obj->cy)[obj->cy_size - 1].rgb), buf);
 }
 
 void	init_input_obj2(int fd, t_in_object *obj, char *buf)
