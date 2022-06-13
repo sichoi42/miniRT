@@ -51,8 +51,8 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 		}
 	}
 	// CONE
-	// new = object(CO, cone(point3(0, 0, -5), vec3(0, 1, 0), 30.0, 3), color3(1, 0, 1));
-	// obj_add(&objs, new);
+	new = object(CO, cone(point3(0, 2, -5), vec3(0, 1, 0), 30.0, 3), color3(1, 0, 1));
+	obj_add(&objs, new);
 	// LIGHT
 	if (in_obj->l_size > 0)
 	{
