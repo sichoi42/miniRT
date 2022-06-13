@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/13 00:18:09 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/13 15:42:59 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,22 @@ double	hit_cone_side(t_cone *co, t_ray *ray, t_hit_record *rec)
 	return (root);
 }
 
+void	cone_side_normal(t_cone *co, t_hit_record **rec)
+{
+	t_vec3		th;
+	t_point3	q;
+	t_vec3		qh;
+	double		h_prime;
+	double		r_prime;
+
+	th = vminus((*rec)->p, co->t);
+	h_prime = vlength(th) * co->cos;
+	r_prime = vlength(th) * co->sin;
+	q = vplus(co->t, vmult(co->flip_n, h_prime));
+	qh = vminus((*rec)->p, q);
+	(*rec)->normal = vplus(vmult(co->n, r_prime), vmult(q, h_prime));
+}
+
 t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_cone	*co;
@@ -74,9 +90,12 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	(void)cap_t;
 	if (side_t == INFINITY)
 		return (FALSE);
-	rec->t = side_t;
-	rec->p = ray_at(ray, side_t);
-	rec->normal = co->n;
+	if (side_t != INFINITY)
+	{
+		rec->t = side_t;
+		rec->p = ray_at(ray, side_t);
+		cone_side_normal(co, &rec);
+	}
 	rec->albedo = obj->albedo;
 	return (TRUE);
 }

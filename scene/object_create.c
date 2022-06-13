@@ -68,7 +68,9 @@ t_cone	*cone(t_point3 p, t_vec3 n, double degree, double h)
 	co->a = degree_to_radian(degree);
 	co->h = h;
 	co->r = h * tan(co->a);
-	co->cos2 = cos(co->a) * cos(co->a);
+	co->cos = cos(co->a);
+	co->sin = sin(co->a);
+	co->cos2 = co->cos * co->cos;
 	co->sin2 = 1 - co->cos2;
 	co->p = p;
 	co->n = n;

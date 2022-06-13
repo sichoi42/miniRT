@@ -105,6 +105,8 @@ typedef struct s_cone
 	double		a;
 	double		h;
 	double		r;
+	double		cos;
+	double		sin;
 	double		cos2;
 	double		sin2;
 	t_point3	p;
