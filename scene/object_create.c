@@ -66,12 +66,14 @@ t_cone	*cone(t_point3 p, t_vec3 n, double degree, double h)
 	if (co == NULL)
 		exit(1);
 	co->a = degree_to_radian(degree);
-	co->h = h;
-	co->r = h * tan(co->a);
 	co->cos = cos(co->a);
 	co->sin = sin(co->a);
 	co->cos2 = co->cos * co->cos;
 	co->sin2 = 1 - co->cos2;
+	co->tan = co->sin / co->cos;
+	co->tan2 = co->tan * co->tan;
+	co->h = h;
+	co->r = h * co->tan;
 	co->p = p;
 	co->n = n;
 	co->flip_n = vflip(n);

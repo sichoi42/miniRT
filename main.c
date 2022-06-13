@@ -281,10 +281,34 @@ void	input_window(int fd, t_in_object *obj)
 	free(str);
 }
 
+void	gogo(int fd, char *buf)
+{
+	int size;
+
+	size = ft_read(fd, buf, 1);
+	while (size == 1)
+	{
+		printf("%c", *buf);
+		if (*buf != '\n')
+		{
+			if (*buf == '\0')
+				return ;
+			size = ft_read(fd, buf, 1);
+			continue ;
+		}
+		else
+			break ;
+	}
+	if (size == 0)
+		*buf = '\0';
+}
+
 void	init_input_obj2(int fd, t_in_object *obj, char *buf)
 {
 	if (*buf == 'W')
 		input_window(fd, obj);
+	else if (*buf == '#')
+		gogo(fd, buf);
 	else
 		print_error("Wrong input: symbol\n");
 }
