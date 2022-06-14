@@ -203,7 +203,7 @@ void	input_light(int fd, t_in_object *obj)
 	else
 	{
 		obj->l = ft_realloc(obj->l, sizeof(t_in_light) * (obj->l_size),
-				sizeof(t_in_light) * ((obj->l_size) + 1));
+				sizeof(t_in_light) * (obj->l_size + 1));
 		++(obj->l_size);
 	}
 	input_xyz(fd, &((obj->l)[obj->l_size - 1].org), &buf);
@@ -221,7 +221,7 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 	else
 	{
 		obj->sp = ft_realloc(obj->sp, sizeof(t_in_sphere) * (obj->sp_size),
-				sizeof(t_in_sphere) * ((obj->sp_size) + 1));
+				sizeof(t_in_sphere) * (obj->sp_size + 1));
 		++(obj->sp_size);
 	}
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
