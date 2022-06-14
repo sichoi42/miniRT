@@ -46,5 +46,7 @@ t_color3	ray_color(t_scene *scene)
 		// return (vmult(vplus(scene->rec.normal, color3(1, 1, 1)), 0.5));
 	t = 0.5 * (scene->ray.dir.y + 1.0);
 	// (1-t) * 흰색 + t * 하늘색
-	return (vplus(vmult(color3(1, 1, 1), 1.0 - t), vmult(color3(0.5, 0.7, 1.0), t)));
+	(void)t;
+	return (color3(0, 0, 0));
+	// return (vplus(vmult(color3(1, 1, 1), 1.0 - t), vmult(color3(0.5, 0.7, 1.0), t)));
 }

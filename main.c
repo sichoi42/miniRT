@@ -201,8 +201,11 @@ void	input_light(int fd, t_in_object *obj)
 	if (obj->l == NULL)
 		obj->l = malloc_array(sizeof(t_in_light), ++(obj->l_size));
 	else
-		obj->l = ft_realloc(obj->l, sizeof(t_in_light),
-				sizeof(t_in_light) * (++(obj->l_size)));
+	{
+		obj->l = ft_realloc(obj->l, sizeof(t_in_light) * (obj->l_size),
+				sizeof(t_in_light) * ((obj->l_size) + 1));
+		++(obj->l_size);
+	}
 	input_xyz(fd, &((obj->l)[obj->l_size - 1].org), &buf);
 	(obj->l)[obj->l_size - 1].ratio = input_ratio(fd, &buf);
 	input_color3(fd, &((obj->l)[obj->l_size - 1].rgb), &buf);

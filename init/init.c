@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/14 15:02:08 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/14 21:54:16 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 		i = -1;
 		while (++i < in_obj->l_size)
 		{
-			new = object(POINT_LIGHT, point_light(in_obj->l[i].org, in_obj->l[i].rgb, in_obj->l[i].ratio), color3(0, 0, 0));
+			new = object(POINT_LIGHT, point_light(in_obj->l[i].org, in_obj->l[i].rgb, in_obj->l[i].ratio), in_obj->l[i].rgb);
 			obj_add(light, new);
 		}
 	}
