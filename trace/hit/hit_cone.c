@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/13 20:37:28 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/14 14:25:11 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ double	hit_cone_cap(t_cone *co, t_ray *ray, t_hit_record *rec)
 		return (INFINITY);
 	pt = vminus(co->t, co->p);
 	ot = vminus(pt, ray->orig);
+	(void)ot;
 	root = vdot(pt, co->n) / denom;
 	if (vlength2(vminus(ray_at(ray, root), pt)) > co->r * co->r)
 		return (INFINITY);
