@@ -1,6 +1,9 @@
 #ifndef TRACE_H
 # define TRACE_H
 
+# define BLACK 0x000000
+# define WHITE 0xffffff
+
 # include "structures.h"
 # include "utils.h"
 
@@ -17,6 +20,9 @@ t_vec3		reflect(t_vec3 v, t_vec3 n);
 t_bool		in_shadow(t_obj *obj, t_ray light_ray, double light_len);
 t_color3	get_point_light(t_scene *scene, t_light *light);
 t_color3	phong_lighting(t_scene *scene);
+
+// texture.c
+void		apply_texture(t_hit_record *rec);
 
 // -----in hit folder-----
 
