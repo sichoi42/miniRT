@@ -45,12 +45,15 @@ typedef struct s_in_sphere {
 	t_point3	org;
 	double		r;
 	t_color3	rgb;/*[0-255]*/
+	int			flag;/*0:basic, 1:half*/
+	int			texture;
 }	t_in_sphere;
 
 typedef struct s_in_plane {
 	t_point3	org;
 	t_vec3		org_vec;/*[-1,1]*/
 	t_color3	rgb;/*[0-255]*/
+	int			texture;
 }	t_in_plane;
 
 typedef struct s_in_cylinder {
@@ -59,6 +62,8 @@ typedef struct s_in_cylinder {
 	double		r;
 	double		h;
 	t_color3	rgb;/*[0,255]*/
+	int			flag;/*0:basic, 1:half*/
+	int			texture;
 }	t_in_cylinder;
 
 typedef struct s_in_cone {
@@ -67,6 +72,7 @@ typedef struct s_in_cone {
 	double		h;
 	double		a;/*(0, 90)*/
 	t_color3	rgb;
+	int			texture;
 }	t_in_cone;
 
 typedef struct s_in_object {

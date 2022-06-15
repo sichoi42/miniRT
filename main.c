@@ -211,6 +211,26 @@ void	input_light(int fd, t_in_object *obj)
 	input_color3(fd, &((obj->l)[obj->l_size - 1].rgb), &buf);
 }
 
+void	check_half(int fd, char *buf, int *flag)
+{
+	pass_space(fd, buf, "");
+	if (*buf == '2')
+		*flag = 1;
+	else
+		*flag = 0;
+}
+
+void	check_texture(int fd, char *buf, int *texture)
+{
+	pass_space(fd, buf, " \t");
+	if (*buf == '0')
+		*texture = 0;
+	else if (*buf == '1')
+		*texture = 1;
+	else
+		print_error("Wrong input: not texture\n");
+}
+
 void	input_sphere(int fd, t_in_object *obj, char *buf)
 {
 	pass_space(fd, buf, "");
@@ -224,9 +244,11 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 				sizeof(t_in_sphere) * (obj->sp_size + 1));
 		++(obj->sp_size);
 	}
+	check_half(fd, buf, &((obj->sp)[obj->sp_size - 1].flag));
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
 	(obj->sp)[obj->sp_size - 1].r = make_float(fd, buf) / 2;
 	input_color3(fd, &((obj->sp)[obj->sp_size - 1].rgb), buf);
+	check_texture(fd, buf, &((obj->sp)[obj->sp_size - 1].texture));
 }
 
 void	input_plane(int fd, t_in_object *obj, char *buf)
@@ -245,6 +267,7 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 	input_xyz(fd, &((obj->pl)[obj->pl_size - 1].org), buf);
 	input_vec(fd, &((obj->pl)[obj->pl_size - 1].org_vec), buf);
 	input_color3(fd, &((obj->pl)[obj->pl_size - 1].rgb), buf);
+	check_texture(fd, buf, &((obj->pl)[obj->pl_size - 1].texture));
 }
 
 void	input_cone(int fd, t_in_object *obj, char *buf)
@@ -264,6 +287,7 @@ void	input_cone(int fd, t_in_object *obj, char *buf)
 	if (obj->co[obj->co_size - 1].a <= 0 || obj->co[obj->co_size - 1].a >= 90)
 		print_error("Wrong input: angle 0~90\n");
 	input_color3(fd, &((obj->co)[obj->co_size - 1].rgb), buf);
+	check_texture(fd, buf, &((obj->co)[obj->co_size - 1].texture));
 }
 
 void	input_cylinder(int fd, t_in_object *obj, char *buf)
@@ -284,11 +308,13 @@ void	input_cylinder(int fd, t_in_object *obj, char *buf)
 				sizeof(t_in_cylinder) * (obj->cy_size + 1));
 		++(obj->cy_size);
 	}
+	check_half(fd, buf, &((obj->cy)[obj->cy_size - 1].flag));
 	input_xyz(fd, &((obj->cy)[obj->cy_size - 1].org), buf);
 	input_vec(fd, &((obj->cy)[obj->cy_size - 1].org_vec), buf);
 	obj->cy[obj->cy_size - 1].r = make_float(fd, buf) / 2;
 	obj->cy[obj->cy_size - 1].h = make_float(fd, buf);
 	input_color3(fd, &((obj->cy)[obj->cy_size - 1].rgb), buf);
+	check_texture(fd, buf, &((obj->cy)[obj->cy_size - 1].texture));
 }
 
 void	input_window(int fd, t_in_object *obj)
