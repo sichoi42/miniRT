@@ -9,17 +9,19 @@ t_camera	camera(t_canvas *canvas, t_in_camera *in_cam)
 	double		theta;
 	double		h;
 
+	cam.orig = in_cam->org;
 	cam.dir = in_cam->org_vec;
 	v_up = vec3(0, 1, 0);
-	if (cam.dir.x == 0.0 && cam.dir.y != 0.0 && cam.dir.z == 0)
+	if (cam.dir.x == 0.0 && cam.dir.y > 0 && cam.dir.z == 0)
 		v_up = vec3(0, 0, -1);
+	else if (cam.dir.x == 0.0 && cam.dir.y < 0 && cam.dir.z == 0)
+		v_up = vec3(0, 0, 1);
 	theta = degree_to_radian(in_cam->fov);
 	h = tan(theta / 2.0);
 	viewport_height = 2.0 * h;
 	cam.viewport_h = viewport_height;
 	cam.viewport_w = viewport_height * canvas->aspect_ratio;
-	cam.orig = in_cam->org;
-	cam.w = vunit(vflip(cam.dir));
+	cam.w = vflip(cam.dir);
 	cam.u = vunit(vcross(v_up, cam.w));
 	cam.v = vcross(cam.w, cam.u);
 	cam.horizontal = vmult(cam.u, cam.viewport_w);

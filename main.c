@@ -81,7 +81,7 @@ char	*read_to_str(int fd, char *buf)
 	int		i;
 	int		capa;
 
-	pass_space(fd, buf, " ,");
+	pass_space(fd, buf, " ,\t");
 	capa = STR_SIZE;
 	str = malloc_array(sizeof(char), capa);
 	i = 0;
@@ -201,8 +201,11 @@ void	input_light(int fd, t_in_object *obj)
 	if (obj->l == NULL)
 		obj->l = malloc_array(sizeof(t_in_light), ++(obj->l_size));
 	else
-		obj->l = ft_realloc(obj->l, sizeof(t_in_light),
-				sizeof(t_in_light) * (++(obj->l_size)));
+	{
+		obj->l = ft_realloc(obj->l, sizeof(t_in_light) * (obj->l_size),
+				sizeof(t_in_light) * (obj->l_size + 1));
+		++(obj->l_size);
+	}
 	input_xyz(fd, &((obj->l)[obj->l_size - 1].org), &buf);
 	(obj->l)[obj->l_size - 1].ratio = input_ratio(fd, &buf);
 	input_color3(fd, &((obj->l)[obj->l_size - 1].rgb), &buf);
@@ -210,7 +213,7 @@ void	input_light(int fd, t_in_object *obj)
 
 void	input_sphere(int fd, t_in_object *obj, char *buf)
 {
-	pass_space(fd, buf, " ");
+	pass_space(fd, buf, "");
 	if (*buf != 'p')
 		print_error("Wrong input: symbol sphere\n");
 	if (obj->sp == NULL)
@@ -218,7 +221,7 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 	else
 	{
 		obj->sp = ft_realloc(obj->sp, sizeof(t_in_sphere) * (obj->sp_size),
-				sizeof(t_in_sphere) * ((obj->sp_size) + 1));
+				sizeof(t_in_sphere) * (obj->sp_size + 1));
 		++(obj->sp_size);
 	}
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
@@ -228,7 +231,7 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 
 void	input_plane(int fd, t_in_object *obj, char *buf)
 {
-	pass_space(fd, buf, " ");
+	pass_space(fd, buf, "");
 	if (*buf != 'l')
 		print_error("Wrong input: symbol plane\n");
 	if (obj->pl == NULL)
@@ -265,7 +268,7 @@ void	input_cone(int fd, t_in_object *obj, char *buf)
 
 void	input_cylinder(int fd, t_in_object *obj, char *buf)
 {
-	pass_space(fd, buf, " ");
+	pass_space(fd, buf, "");
 	if (*buf == 'o')
 	{
 		input_cone(fd, obj, buf);
@@ -343,7 +346,7 @@ void	init_input_obj(int fd, t_in_object *obj)
 	ft_memset(obj, sizeof(t_in_object), 0);
 	while (1)
 	{
-		pass_space(fd, &buf, " \n");
+		pass_space(fd, &buf, " \t\n");
 		if (buf == 'A')
 			input_ambient(fd, obj);
 		else if (buf == 'C')

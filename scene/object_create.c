@@ -38,7 +38,7 @@ t_plane	*plane(t_point3 p, t_vec3 normal)
 	if (pl == NULL)
 		exit(1);
 	pl->p = p;
-	pl->normal = normal;
+	pl->normal = vunit(normal);
 	return (pl);
 }
 
@@ -50,7 +50,7 @@ t_cylinder	*cylinder(t_point3 p, t_point3 n, double radius, double height)
 	if (cy == NULL)
 		exit(1);
 	cy->p = p;
-	cy->normal = n;
+	cy->normal = vunit(n);
 	cy->radius = radius;
 	cy->height = height;
 	cy->tc = vplus(p, vmult(cy->normal, cy->height / 2));
@@ -75,7 +75,7 @@ t_cone	*cone(t_point3 p, t_vec3 n, double degree, double h)
 	co->h = h;
 	co->r = h * co->tan;
 	co->p = p;
-	co->n = n;
+	co->n = vunit(n);
 	co->flip_n = vflip(n);
 	co->t = vplus(p, vmult(n, h));
 	return (co);

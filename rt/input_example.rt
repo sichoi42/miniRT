@@ -10,15 +10,3 @@
 # Cone(co)             Center    Normal    Height      Angle     Color
 # Half_Sphere(sp2)     Center    Diameter  Color
 # Cylinder_no_cap(cy2) Center    Normal    Diameter    Height    Color
-
-W  1080 720
-
-A  0.2  255,255,255
-
-C   0,5,0      0,0,-1     95
-L   -10,10,-5    0.5   255,255,255
-pl   0,0,0    0,1,0   0,127,127
-pl   0,0,-10    0,0,1   0,127,127
-
-cy   0,6.75,-5  0,1,0 3  3.5  127,0,0
-

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/13 20:30:27 by swi              ###   ########.fr       */
+/*   Updated: 2022/06/14 21:54:16 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 		}
 	}
 	// CYLINDER
-	if (in_obj->cy > 0)
+	if (in_obj->cy_size > 0)
 	{
 		i = -1;
 		while (++i < in_obj->cy_size)
@@ -51,15 +51,22 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 		}
 	}
 	// CONE
-	new = object(CO, cone(point3(0, 2, -5), vec3(0, 1, 0), 30.0, 3), color3(1, 0, 1));
-	obj_add(&objs, new);
+	if (in_obj->co_size > 0)
+	{
+		i = -1;
+		while (++i < in_obj->co_size)
+		{
+			new = object(CO, cone(in_obj->co[i].org, in_obj->co[i].org_vec, in_obj->co[i].a, in_obj->co[i].h), in_obj->co[i].rgb);
+			obj_add(&objs, new);
+		}
+	}
 	// LIGHT
 	if (in_obj->l_size > 0)
 	{
 		i = -1;
 		while (++i < in_obj->l_size)
 		{
-			new = object(POINT_LIGHT, point_light(in_obj->l[i].org, in_obj->l[i].rgb, in_obj->l[i].ratio), color3(0, 0, 0));
+			new = object(POINT_LIGHT, point_light(in_obj->l[i].org, in_obj->l[i].rgb, in_obj->l[i].ratio), in_obj->l[i].rgb);
 			obj_add(light, new);
 		}
 	}

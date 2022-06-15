@@ -6,29 +6,20 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:12 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/13 17:37:37 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/15 13:47:33 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "trace.h"
 
-t_bool	cylinder_limit(t_cylinder *cy, t_point3 hit_p, double height)
-{
-	double	limit;
-
-	limit = sqrt(cy->radius * cy->radius + height * height);
-	if (vlength(vminus(hit_p, cy->p)) > limit)
-		return (FALSE);
-	return (TRUE);
-}
-
 double	hit_cylinder_side(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 {
 	t_discrim	d;
 	double		root;
+	double		t[2];
 	t_vec3		po;
-	t_point3	h;
+	t_point3	h[2];
 
 	po = vminus(ray->orig, cy->p);
 	d.a = vlength2(vcross(ray->dir, cy->normal));
@@ -38,14 +29,29 @@ double	hit_cylinder_side(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 	if (d.discriminant < EPSILON)
 		return (INFINITY);
 	d.sqrt_d = sqrt(d.discriminant);
-	root = validate_root(d, rec);
-	if (root == INFINITY)
+	t[0] = (-d.half_b - d.sqrt_d) / d.a;
+	t[1]  = (-d.half_b + d.sqrt_d) / d.a;
+	if (t[0] < rec->t_min || t[0] > rec->t_max)
+		t[0] = INFINITY;
+	if (t[1] < rec->t_min || t[1] > rec->t_max)
+		t[1] = INFINITY;
+	if (t[0] == INFINITY && t[1] == INFINITY)
 		return (INFINITY);
-	h = ray_at(ray, root);
-	if (vdot(cy->normal, vminus(h, cy->tc)) > 0)
+	h[0] = ray_at(ray, t[0]);
+	h[1] = ray_at(ray, t[1]);
+	if (vdot(cy->normal, vminus(h[0], cy->tc)) > 0)
+		t[0] = INFINITY;
+	if (vdot(cy->normal, vminus(h[0], cy->bc)) < 0)
+		t[0] = INFINITY;
+	if (vdot(cy->normal, vminus(h[1], cy->tc)) > 0)
+		t[1] = INFINITY;
+	if (vdot(cy->normal, vminus(h[1], cy->bc)) < 0)
+		t[1] = INFINITY;
+	if (t[0] == INFINITY && t[1] == INFINITY)
 		return (INFINITY);
-	if (vdot(cy->normal, vminus(h, cy->bc)) < 0)
-		return (INFINITY);
+	root = t[0];
+	if (t[1] < root)
+		root = t[1];
 	return (root);
 }
 
@@ -87,6 +93,7 @@ t_bool	hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec)
 	cy = (t_cylinder *)obj->element;
 	side_t = hit_cylinder_side(cy, ray, rec);
 	cap_t = hit_cylinder_cap(cy, ray, rec);
+	cap_t = INFINITY;
 	if (side_t == INFINITY && cap_t == INFINITY)
 		return (FALSE);
 	if (side_t < cap_t)
