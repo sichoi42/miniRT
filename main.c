@@ -81,7 +81,7 @@ char	*read_to_str(int fd, char *buf)
 	int		i;
 	int		capa;
 
-	pass_space(fd, buf, " ,");
+	pass_space(fd, buf, " ,\t");
 	capa = STR_SIZE;
 	str = malloc_array(sizeof(char), capa);
 	i = 0;
@@ -213,7 +213,7 @@ void	input_light(int fd, t_in_object *obj)
 
 void	input_sphere(int fd, t_in_object *obj, char *buf)
 {
-	pass_space(fd, buf, " ");
+	pass_space(fd, buf, "");
 	if (*buf != 'p')
 		print_error("Wrong input: symbol sphere\n");
 	if (obj->sp == NULL)
@@ -231,7 +231,7 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 
 void	input_plane(int fd, t_in_object *obj, char *buf)
 {
-	pass_space(fd, buf, " ");
+	pass_space(fd, buf, "");
 	if (*buf != 'l')
 		print_error("Wrong input: symbol plane\n");
 	if (obj->pl == NULL)
@@ -268,7 +268,7 @@ void	input_cone(int fd, t_in_object *obj, char *buf)
 
 void	input_cylinder(int fd, t_in_object *obj, char *buf)
 {
-	pass_space(fd, buf, " ");
+	pass_space(fd, buf, "");
 	if (*buf == 'o')
 	{
 		input_cone(fd, obj, buf);
@@ -346,7 +346,7 @@ void	init_input_obj(int fd, t_in_object *obj)
 	ft_memset(obj, sizeof(t_in_object), 0);
 	while (1)
 	{
-		pass_space(fd, &buf, " \n");
+		pass_space(fd, &buf, " \t\n");
 		if (buf == 'A')
 			input_ambient(fd, obj);
 		else if (buf == 'C')
