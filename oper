@@ -1,4 +1,0 @@
-
-gcc -fsanitize=address main.c ./base/stox.c ./base/ft_realloc.c base/ft_strcmp.c base/print_error.c base/malloc_array.c base/ft_memset.c base/ft_read.c base/ft_strlen.c -I ./include
-
-
