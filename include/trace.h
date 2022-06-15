@@ -1,9 +1,6 @@
 #ifndef TRACE_H
 # define TRACE_H
 
-# define BLACK 0x000000
-# define WHITE 0xffffff
-
 # include "structures.h"
 # include "utils.h"
 
