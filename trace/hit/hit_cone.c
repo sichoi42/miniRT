@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/14 19:22:07 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/15 20:10:08 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ double	hit_cone_side(t_cone *co, t_ray *ray, t_hit_record *rec)
 	t_discrim	d;
 	t_vec3		po;
 	double		root;
-	t_vec3		h;
+	double		t[2];
+	t_vec3		h[2];
 	t_vec3		ph;
 	t_vec3		to;
 	t_vec3		pt;
@@ -34,16 +35,33 @@ double	hit_cone_side(t_cone *co, t_ray *ray, t_hit_record *rec)
 	if (d.discriminant < EPSILON)
 		return (INFINITY);
 	d.sqrt_d = sqrt(d.discriminant);
-	root = validate_root(d, rec);
-	if (root == INFINITY)
+	t[0] = (-d.half_b - d.sqrt_d) / d.a;
+	if (t[0] < rec->t_min || t[0] > rec->t_max)
+		t[0] = INFINITY;
+	t[1] = (-d.half_b + d.sqrt_d) / d.a;
+	if (t[1] < rec->t_min || t[1] > rec->t_max)
+		t[1] = INFINITY;
+	if (t[0] == INFINITY && t[1] == INFINITY)
 		return (INFINITY);
-	h = ray_at(ray, root);
-	ph = vminus(h, co->p);
+	h[0] = ray_at(ray, t[0]);
+	ph = vminus(h[0], co->p);
 	pt = vflip(vplus(to, vflip(po)));
 	if (vdot(co->n, ph) < 0)
-		return (INFINITY);
+		t[0] = INFINITY;
 	if (vlength2(ph) > vlength2(pt))
+		t[0] = INFINITY;
+	h[1] = ray_at(ray, t[1]);
+	ph = vminus(h[1], co->p);
+	pt = vflip(vplus(to, vflip(po)));
+	if (vdot(co->n, ph) < 0)
+		t[1] = INFINITY;
+	if (vlength2(ph) > vlength2(pt))
+		t[1] = INFINITY;
+	if (t[0] == INFINITY && t[1] == INFINITY)
 		return (INFINITY);
+	root = t[0];
+	if (t[1] < root)
+		root = t[1];
 	return (root);
 }
 
@@ -97,6 +115,7 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	co = (t_cone *)obj->element;
 	side_t = hit_cone_side(co, ray, rec);
 	cap_t = hit_cone_cap(co, ray, rec);
+	// cap_t = INFINITY;
 	if (side_t == INFINITY && cap_t == INFINITY)
 		return (FALSE);
 	if (side_t < cap_t)

@@ -77,7 +77,7 @@ t_cone	*cone(t_point3 p, t_vec3 n, double degree, double h)
 	co->p = p;
 	co->n = vunit(n);
 	co->flip_n = vflip(n);
-	co->t = vplus(p, vmult(n, h));
+	co->t = vplus(p, vmult(co->n, h));
 	return (co);
 }
 
