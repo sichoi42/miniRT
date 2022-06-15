@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:42:46 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/15 23:31:09 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 01:07:54 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	checkerboard(t_hit_record *rec)
 
 void	apply_texture(t_hit_record *rec)
 {
-	checkerboard(rec);
+	if (rec->texture == CHECKERBOARD)
+		checkerboard(rec);
 }

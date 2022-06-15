@@ -33,6 +33,7 @@ t_hit_record	record_init(void)
 
 	rec.t_min = EPSILON;
 	rec.t_max = INFINITY;
+	rec.texture = DEFAULT;
 	return (rec);
 }
 
@@ -43,7 +44,7 @@ t_color3	ray_color(t_scene *scene)
 	scene->rec = record_init();
 	if (hit(scene->objs, &scene->ray, &scene->rec))
 	{
-		// apply_texture(&scene->rec);
+		apply_texture(&scene->rec);
 		return (phong_lighting(scene));
 	}
 		// return (vmult(vplus(scene->rec.normal, color3(1, 1, 1)), 0.5));

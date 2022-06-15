@@ -2,19 +2,19 @@
 # Ambient(A)           Albedo    Color
 # Camera(C)            Origin    FOV
 # Light(L)             Origin    Albedo    Color
-# Sphere(sp)           Center    Diameter  Color
-# Plane(pl)            Point     Normal    Color
-# Cylinder(cy)         Center    Normal    Diameter    Height    Color
+# Sphere(sp)           Center    Diameter  Color                        TEXTURE
+# Plane(pl)            Point     Normal    Color                        TEXTURE
+# Cylinder(cy)         Center    Normal    Diameter Height    Color     TEXTURE
 
 #### BONUS ####
-# Cone(co)             Center    Normal    Height      Angle     Color
-# Half_Sphere(sp2)     Center    Diameter  Color
-# Cylinder_no_cap(cy2) Center    Normal    Diameter    Height    Color
+# Cone(co)             Center    Normal    Height      Angle     Color  TEXTURE
+# Half_Sphere(sp2)     Center    Diameter  Color                        TEXTURE
+# Cylinder_no_cap(cy2) Center    Normal    Diameter    Height    Color  TEXTURE
 
 A    0.1   255,255,255
 W  900 600
 C   0,5.25,0      0,-1,-1     95
 L   -10, 10,-5    0.5   255,255,255
-pl   0,-2,0    0,1,0   0,127,127
-pl   0,0,-10    0,0,1   0,127,127
-cy 0,3,-3 0,1,0 4 4 255,0,0
+pl   0,-2,0    0,1,0   0,127,127      0
+pl   0,0,-10    0,0,1   0,127,127     0
+cy 0,3,-3 0,1,0 4 4 255,0,0           0

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/14 21:54:16 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 00:21:41 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,61 +15,23 @@
 t_obj	*adding_objects(t_in_object *in_obj, t_obj **light)
 {
 	t_obj	*objs;
-	t_obj	*new;
-	int		i;
 
 	objs = NULL;
-	new = NULL;
 	// SPHERE
 	if (in_obj->sp_size > 0)
-	{
-		i = -1;
-		while (++i < in_obj->sp_size)
-		{
-			new = object(SP, sphere(in_obj->sp[i].org, in_obj->sp[i].r), in_obj->sp[i].rgb);
-			obj_add(&objs, new);
-		}
-	}
+		add_sphere(&objs, in_obj);
 	// PLANE
 	if (in_obj->pl_size > 0)
-	{
-		i = -1;
-		while (++i < in_obj->pl_size)
-		{
-			new = object(PL, plane(in_obj->pl[i].org, in_obj->pl[i].org_vec), in_obj->pl[i].rgb);
-			obj_add(&objs, new);
-		}
-	}
+		add_plane(&objs, in_obj);
 	// CYLINDER
 	if (in_obj->cy_size > 0)
-	{
-		i = -1;
-		while (++i < in_obj->cy_size)
-		{
-			new = object(CY, cylinder(in_obj->cy[i].org, in_obj->cy[i].org_vec, in_obj->cy[i].r, in_obj->cy[i].h), in_obj->cy[i].rgb);
-			obj_add(&objs, new);
-		}
-	}
+		add_cylinder(&objs, in_obj);
 	// CONE
 	if (in_obj->co_size > 0)
-	{
-		i = -1;
-		while (++i < in_obj->co_size)
-		{
-			new = object(CO, cone(in_obj->co[i].org, in_obj->co[i].org_vec, in_obj->co[i].a, in_obj->co[i].h), in_obj->co[i].rgb);
-			obj_add(&objs, new);
-		}
-	}
+		add_cone(&objs, in_obj);
 	// LIGHT
 	if (in_obj->l_size > 0)
-	{
-		i = -1;
-		while (++i < in_obj->l_size)
-		{
-			new = object(POINT_LIGHT, point_light(in_obj->l[i].org, in_obj->l[i].rgb, in_obj->l[i].ratio), in_obj->l[i].rgb);
-			obj_add(light, new);
-		}
-	}
+		add_light(light, in_obj);
 	return (objs);
 }
 

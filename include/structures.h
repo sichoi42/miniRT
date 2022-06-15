@@ -5,17 +5,37 @@
 
 # define DEFAULT_WINDOW_W 1600
 # define DEFAULT_WINDOW_H 900
-
+// =============================================================================
+// Defined for Objects Flag
+// =============================================================================
 # define SP 0
 # define PL 1
 # define CY 2
 # define CO 3
 # define POINT_LIGHT 4
 
+// =============================================================================
+// Defined for Object Input Type
+// =============================================================================
+# define BASIC 0
+# define HALF 1
+# define CY_NO_CAP 1
+
+// =============================================================================
+// Defined for Object Texture
+// =============================================================================
+# define DEFAULT 0
+# define CHECKERBOARD 1
+
+// =============================================================================
+// Defined for Hit Calulation
+// =============================================================================
 # define EPSILON 1e-6
 # define LUMEN 3 // 밝기 조절.
 
-// Defined for mlx key
+// =============================================================================
+// Defined for Mlx Key
+// =============================================================================
 # define KEYPRESS 2
 # define DESTROY 17
 # define ESC 53
@@ -81,12 +101,15 @@ typedef struct s_sphere
 	t_point3	center;
 	double		radius;
 	double		radius2;
+	int			flag;
+	int			texture;
 }	t_sphere;
 
 typedef struct s_plane
 {
 	t_point3	p;
 	t_vec3		normal;
+	int			texture;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -98,6 +121,8 @@ typedef struct s_cylinder
 	t_vec3		op;
 	t_vec3		tc;
 	t_vec3		bc;
+	int			flag;
+	int			texture;
 }	t_cylinder;
 
 typedef struct s_cone
@@ -117,8 +142,7 @@ typedef struct s_cone
 	t_point3	t;
 	double		c1;
 	double		c2;
-	// double		c3;
-	// t_vec3		c4;
+	int			texture;
 }	t_cone;
 
 typedef struct s_light
@@ -145,6 +169,7 @@ typedef struct s_hit_record
 	double		t;
 	t_bool		front_face;
 	t_color3	albedo;
+	int			texture;
 }	t_hit_record;
 
 typedef struct s_discrim

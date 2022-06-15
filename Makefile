@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/06/15 15:54:41 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/16 00:22:32 by sichoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,11 @@ CHECK = \033[0;32m\xE2\x9C\x94\033[0m
 
 FUNC = ./draw\
 	./init/init\
+	./init/add_sphere\
+	./init/add_plane\
+	./init/add_cylinder\
+	./init/add_cone\
+	./init/add_light\
 	./print/print\
 	./scene/camera\
 	./scene/canvas\

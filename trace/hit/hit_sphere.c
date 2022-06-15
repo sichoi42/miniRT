@@ -6,13 +6,21 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:24 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/15 20:13:15 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 00:50:48 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "utils.h"
 #include "trace.h"
+
+void	cutting_sphere(double *t, t_vec3 h[], t_point3 center)
+{
+	if (t[0] != INFINITY && vdot(vec3(0, 1, 0), vminus(h[0], center)) < 0)
+		t[0] = INFINITY;
+	if (t[1] != INFINITY && vdot(vec3(0, 1, 0), vminus(h[1], center)) < 0)
+		t[1] = INFINITY;
+}
 
 t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
@@ -42,12 +50,12 @@ t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		return (FALSE);
 	h[0] = ray_at(ray, t[0]);
 	h[1] = ray_at(ray, t[1]);
-	// if (t[0] != INFINITY && vdot(vec3(0, 1, 0), vminus(h[0], sp->center)) < 0)
-	// 	t[0] = INFINITY;
-	// if (t[1] != INFINITY && vdot(vec3(0, 1, 0), vminus(h[1], sp->center)) < 0)
-	// 	t[1] = INFINITY;
-	// if (t[0] == INFINITY && t[1] == INFINITY)
-	// 	return (FALSE);
+	if (sp->flag == HALF)
+	{
+		cutting_sphere(t, h, sp->center);
+		if (t[0] == INFINITY && t[1] == INFINITY)
+		return (FALSE);
+	}
 	root = t[0];
 	if (t[1] < root)
 		root = t[1];
@@ -55,6 +63,7 @@ t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	rec->p = ray_at(ray, root);
 	rec->normal = vdivide(vminus(rec->p, sp->center), sp->radius);
 	rec->albedo = obj->albedo;
+	rec->texture = sp->texture;
 	set_face_normal(ray, rec);
 	return (TRUE);
 }

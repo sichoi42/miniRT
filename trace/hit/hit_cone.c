@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/15 20:10:08 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 01:05:39 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 
 	co = (t_cone *)obj->element;
 	side_t = hit_cone_side(co, ray, rec);
+	cap_t = INFINITY;
 	cap_t = hit_cone_cap(co, ray, rec);
-	// cap_t = INFINITY;
 	if (side_t == INFINITY && cap_t == INFINITY)
 		return (FALSE);
 	if (side_t < cap_t)
@@ -132,5 +132,6 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	}
 	set_face_normal(ray, rec);
 	rec->albedo = obj->albedo;
+	rec->texture = co->texture;
 	return (TRUE);
 }
