@@ -6,13 +6,20 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:17 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 00:51:02 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 21:18:28 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "utils.h"
 #include "trace.h"
+
+void	get_plane_uv(t_hit_record *rec)
+{
+	set_uv_map(rec->normal, &rec->u_vec, &rec->v_vec);
+	rec->u = ft_fmod_abs(fmod(vdot(rec->p, rec->u_vec), 1), 1);
+	rec->v = ft_fmod_abs(fmod(vdot(rec->p, rec->v_vec), 1), 1);
+}
 
 t_bool	hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
@@ -38,6 +45,8 @@ t_bool	hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	rec->p = vplus(rec->p, vmult(rec->normal, EPSILON));
 	rec->albedo = obj->albedo;
 	rec->texture = pl->texture;
+	get_plane_uv(rec);
 	set_face_normal(ray, rec);
+	rec->obj = obj;
 	return (TRUE);
 }

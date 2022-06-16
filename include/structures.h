@@ -26,6 +26,14 @@
 // =============================================================================
 # define DEFAULT 0
 # define CHECKERBOARD 1
+# define BUMP_MAP 2
+
+typedef enum e_color_mask
+{
+	RED = 16,
+	GREEN = 8,
+	BLUE = 0,
+}	t_color_mask;
 
 // =============================================================================
 // Defined for Hit Calulation
@@ -53,17 +61,6 @@ struct s_vec3
 	double y;
 	double z;
 };
-
-typedef struct s_mlx
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_mlx;
 
 typedef struct s_ray
 {
@@ -94,6 +91,35 @@ typedef struct s_canvas
 	double	aspect_ratio; // 종횡비
 }	t_canvas;
 
+typedef struct s_image
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_image;
+
+typedef struct s_mlx
+{
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_image		img;
+}	t_mlx;
+
+typedef struct s_xpm_image
+{
+	t_image		img;
+	int			width;
+	int			height;
+}	t_xpm_image;
+
+typedef struct s_bumpmap
+{
+	t_xpm_image	*texture_img;
+	t_xpm_image	*bump_img;
+}	t_bumpmap;
+
 // Structures for objs
 
 typedef struct s_sphere
@@ -103,6 +129,7 @@ typedef struct s_sphere
 	double		radius2;
 	int			flag;
 	int			texture;
+	t_bumpmap	*bumpmap;
 }	t_sphere;
 
 typedef struct s_plane
@@ -110,6 +137,7 @@ typedef struct s_plane
 	t_point3	p;
 	t_vec3		normal;
 	int			texture;
+	t_bumpmap	*bumpmap;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -123,6 +151,7 @@ typedef struct s_cylinder
 	t_vec3		bc;
 	int			flag;
 	int			texture;
+	t_bumpmap	*bumpmap;
 }	t_cylinder;
 
 typedef struct s_cone
@@ -143,6 +172,7 @@ typedef struct s_cone
 	double		c1;
 	double		c2;
 	int			texture;
+	t_bumpmap	*bumpmap;
 }	t_cone;
 
 typedef struct s_light
@@ -170,6 +200,11 @@ typedef struct s_hit_record
 	t_bool		front_face;
 	t_color3	albedo;
 	int			texture;
+	t_obj		*obj;
+	double		u;
+	double		v;
+	t_vec3		u_vec;
+	t_vec3		v_vec;
 }	t_hit_record;
 
 typedef struct s_discrim

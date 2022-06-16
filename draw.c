@@ -46,10 +46,9 @@ void	draw(t_in_object *in_obj)
 	t_scene		scene;
 	t_mlx		mlx;
 
-	init_scene(&scene, in_obj);
-	init_mlx(&mlx, &scene);
+	init(&scene, &mlx, in_obj);
 	draw_loop(&scene);
-	mlx_put_image_to_window(mlx.mlx_ptr, mlx.win_ptr, mlx.img, 0, 0);
+	mlx_put_image_to_window(scene.mlx->mlx_ptr, scene.mlx->win_ptr, scene.mlx->img.img, 0, 0);
 	mlx_hook(scene.mlx->win_ptr, KEYPRESS, 0, key_esc, NULL);
 	mlx_hook(scene.mlx->win_ptr, DESTROY, 0, key_exit, NULL);
 	mlx_loop(mlx.mlx_ptr);

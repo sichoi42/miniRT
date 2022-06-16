@@ -41,6 +41,7 @@ t_bool		hit(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	{
 		if (hit_obj(obj, ray, &temp_rec))
 		{
+			// printf("%d", obj->type); fflush(0);
 			is_hit = TRUE;
 			temp_rec.t_max = temp_rec.t;
 			*rec = temp_rec;

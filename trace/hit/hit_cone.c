@@ -6,12 +6,27 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 01:05:39 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 20:38:15 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "trace.h"
+
+void	get_cone_uv(t_hit_record *rec, t_cone *co)
+{
+	double	theta;
+	double	height;
+	t_vec3	ph;
+
+	set_uv_map(co->n, &rec->u_vec, &rec->v_vec);
+	ph = vminus(rec->p, co->p);
+	theta
+		= atan2(-1 * vdot(ph, rec->v_vec), vdot(ph, rec->u_vec)) + M_PI;
+	height = vdot(ph, co->n);
+	rec->u = theta * M_1_PI * 0.5;
+	rec->v = ft_fmod_abs(fmod(height, 1), 1);
+}
 
 double	hit_cone_side(t_cone *co, t_ray *ray, t_hit_record *rec)
 {
@@ -133,5 +148,7 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	set_face_normal(ray, rec);
 	rec->albedo = obj->albedo;
 	rec->texture = co->texture;
+	get_cone_uv(rec, co);
+	rec->obj = obj;
 	return (TRUE);
 }
