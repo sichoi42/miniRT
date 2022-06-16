@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 20:38:15 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 00:16:50 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,10 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		rec->normal = co->n;
 	}
 	set_face_normal(ray, rec);
-	rec->albedo = obj->albedo;
+	// rec->albedo = obj->albedo;
 	rec->texture = co->texture;
 	get_cone_uv(rec, co);
-	rec->obj = obj;
+	hit_color_select(rec, obj);
+	// rec->obj = obj;
 	return (TRUE);
 }

@@ -45,8 +45,8 @@ t_color3	ray_color(t_scene *scene)
 	scene->rec = record_init();
 	if (hit(scene->objs, &scene->ray, &scene->rec))
 	{
-		printf("%p\n", scene->rec.obj);
-		apply_texture(&scene->rec);
+		// printf("%p\n", scene->rec.obj);
+		// apply_texture(&scene->rec);
 		return (phong_lighting(scene));
 	}
 		// return (vmult(vplus(scene->rec.normal, color3(1, 1, 1)), 0.5));

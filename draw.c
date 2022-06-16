@@ -21,6 +21,7 @@ void	draw_loop(t_scene *scene)
 			//ray from camera origin to pixel
 			scene->ray = ray_primary(&scene->camera, u, v);
 			pixel_color = ray_color(scene);
+			// ft_mlx_pixel_put(scene, color3_to_pixel(pixel_color), i, scene->canvas.height - 1 - j);
 			ft_mlx_pixel_put(scene, &pixel_color, i, scene->canvas.height - 1 - j);
 			++i;
 		}

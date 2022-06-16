@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:24 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 20:01:17 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 00:45:11 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,12 @@ t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		root = t[1];
 	rec->t = root;
 	rec->p = ray_at(ray, root);
-	rec->normal = vdivide(vminus(rec->p, sp->center), sp->radius);
-	rec->albedo = obj->albedo;
+	rec->normal = vunit(vdivide(vminus(rec->p, sp->center), sp->radius));
+	// rec->albedo = obj->albedo;
 	rec->texture = sp->texture;
-	rec->obj = obj;
-	get_sphere_uv(rec);
+	// rec->obj = obj;
 	set_face_normal(ray, rec);
+	get_sphere_uv(rec);
+	hit_color_select(rec, obj);
 	return (TRUE);
 }

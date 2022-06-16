@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:42:46 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 21:22:49 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 01:21:12 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@ void	checkerboard(t_hit_record *rec)
 
 void	set_uv_map(t_vec3 n, t_vec3 *u, t_vec3 *v)
 {
-	*v = vunit(vcross(n, vec3(1, 0, 0)));
-	if (is_same_vec(*v, vec3(0, 0, 0)))
-		*v = vunit(vcross(n, vec3(0, 0, 1)));
-	*u = vunit(vcross(*v, n));
+	t_vec3	v_up;
+
+	if (is_same_vec(n, vec3(0, 1, 0)))
+		v_up = vec3(0, 0, 1);
+	else if (is_same_vec(n, vec3(0, -1, 0)))
+		v_up = vec3(0, 0, -1);
+	else
+		v_up = vec3(0, 1, 0);
+	*u = vunit(vcross(v_up, n));
+	*v = vunit(vcross(n, *u));
 }
 
 int	rgb_extract(int mlx_color, t_color_mask type)
@@ -91,41 +97,31 @@ t_vec3	mapping_bump_img(t_hit_record *rec, t_xpm_image *img)
 		));
 }
 
-void	bump_mapping(t_hit_record *rec)
+void	bump_mapping(t_hit_record *rec, t_obj *obj)
 {
 	t_obj_type	type;
-	void		*obj;
+	// void		*obj;
 	t_bumpmap	*bmp;
 
-	type = rec->obj->type;
+	type = obj->type;
 	if (type == SP)
-	{
-		obj = rec->obj->element;
-		bmp = ((t_sphere *)obj)->bumpmap;
-	}
+		bmp = ((t_sphere *)obj->element)->bumpmap;
 	else if (type == PL)
-	{
-		obj = rec->obj->element;
-		bmp = ((t_plane *)obj)->bumpmap;
-	}
+		bmp = ((t_plane *)obj->element)->bumpmap;
 	else if (type == CY)
-	{
-		obj = rec->obj->element;
-		bmp = ((t_cylinder *)obj)->bumpmap;
-	}
+		bmp = ((t_cylinder *)obj->element)->bumpmap;
 	else
-	{
-		obj = rec->obj->element;
-		bmp = ((t_sphere *)obj)->bumpmap;
-	}
+		bmp = ((t_cone *)obj->element)->bumpmap;
 	rec->albedo = mapping_texture_img(rec->u, rec->v, bmp->texture_img);
-	rec->normal = mapping_bump_img(rec, bmp->bump_img);
+	// rec->normal = mapping_bump_img(rec, bmp->bump_img);
 }
 
-void	apply_texture(t_hit_record *rec)
+void	hit_color_select(t_hit_record *rec, t_obj *obj)
 {
 	if (rec->texture == CHECKERBOARD)
-		bump_mapping(rec);
+		bump_mapping(rec, obj);
+	else
+		rec->albedo = obj->albedo;
 		// checkerboard(rec);
 	// else if (rec->texture == BUMP_MAP)
 	// 	bump_mapping(rec);

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 20:49:25 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 01:21:43 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	init(t_scene *scene, t_mlx *mlx, t_in_object *in_obj)
 	mlx->mlx_ptr = mlx_init();
 	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, scene->canvas.width, scene->canvas.height, "miniRT");
 	mlx->img.img = mlx_new_image(mlx->mlx_ptr, scene->canvas.width, scene->canvas.height);
+	// mlx->img.img = mlx_xpm_file_to_image(mlx->mlx_ptr, "./rt/block.xpm", &scene->canvas.width, &scene->canvas.height);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	scene->ambient = vmult(in_obj->a->rgb, in_obj->a->ratio);
 	scene->camera = camera(&scene->canvas, in_obj->c);
 	scene->light = NULL;
