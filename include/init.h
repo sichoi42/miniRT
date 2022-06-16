@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:55:35 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 18:56:43 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/16 21:46:15 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "parsing.h"
 # include "scene.h"
 # include "mlx.h"
+# include "utils.h"
 
 void		add_sphere(t_obj **objs, t_in_object *in_obj, void *mlx_ptr);
 void		add_plane(t_obj **objs, t_in_object *in_obj, void *mlx_ptr);

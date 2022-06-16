@@ -30,5 +30,7 @@ double		radian_to_degree(double radian);
 double		ft_fmod_abs(double x, double mod);
 int			clamp(int x, int min, int max);
 
+void		obj_add(t_obj **lst, t_obj *new);
+t_obj		*obj_last(t_obj *lst);
 
 #endif
