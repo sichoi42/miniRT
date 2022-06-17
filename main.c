@@ -50,6 +50,8 @@ void	check_str(char *str)
 {
 	int dot;
 
+	if (ft_strcmp(str, "rgb") == 0 || ft_strcmp(str, "bp") == 0)
+		return ;
 	dot = 0;
 	if (*str == '+' || *str == '-' || *str == '.')
 	{
@@ -132,19 +134,50 @@ double	input_ratio(int fd, char *buf)
 	return (num);
 }
 
-void	input_color3(int fd, t_color3 *rgb, char *buf)
+void	input_bp(int fd, char ***bp, char *buf)
+{
+	char	*str;
+	int		len;
+
+	str = read_to_str(fd, buf);
+	(*bp)[0] = str;
+	len = ft_strlen(str);
+	if (ft_strcmp(str + len - 4, ".xmp") != 0)
+		print_error("Wrong input: xmp format error\n");
+	str = read_to_str(fd, buf);
+	(*bp)[1] = str;
+	len = ft_strlen(str);
+	if (ft_strcmp(str + len - 4, ".xmp") != 0)
+		print_error("Wrong input: xmp format error\n");
+}
+
+void	input_color3(int fd, t_color3 *rgb, char ***bp, char *buf)
 {
 	char	*str;
 
+	if (bp != NULL)
+		*bp = NULL;
 	str = read_to_str(fd, buf);
-	rgb->x = (unsigned char)stoi_rgb(str) / 255.999;
+	if (ft_strcmp(str, "rgb") == 0)
+	{
+		free(str);
+		str = read_to_str(fd, buf);
+		rgb->x = (unsigned char)stoi_rgb(str) / 255.999;
+		free(str);
+		str = read_to_str(fd, buf);
+		rgb->y = (unsigned char)stoi_rgb(str) / 255.999;
+		free(str);
+		str = read_to_str(fd, buf);
+		rgb->z = (unsigned char)stoi_rgb(str) / 255.999;
+		free(str);
+		printf("%f %f %f\n", rgb->x, rgb->y, rgb->z);
+		return ;
+	}
+	else if (ft_strcmp(str, "bp") != 0 || bp == NULL)
+		print_error("Wrong input: color word\n");
 	free(str);
-	str = read_to_str(fd, buf);
-	rgb->y = (unsigned char)stoi_rgb(str) / 255.999;
-	free(str);
-	str = read_to_str(fd, buf);
-	rgb->z = (unsigned char)stoi_rgb(str) / 255.999;
-	free(str);
+	ft_memset(rgb, sizeof(t_color3), 0);
+	input_bp(fd, bp, buf);
 }
 
 void	input_ambient(int fd, t_in_object *obj)
@@ -156,7 +189,7 @@ void	input_ambient(int fd, t_in_object *obj)
 	else
 		print_error("Wrong input: ambient only one\n");
 	obj->a->ratio = input_ratio(fd, &buf);
-	input_color3(fd, &(obj->a->rgb), &buf);
+	input_color3(fd, &(obj->a->rgb), NULL, &buf);
 }
 
 void	input_xyz(int fd, t_point3 *org, char *buf)
@@ -208,7 +241,7 @@ void	input_light(int fd, t_in_object *obj)
 	}
 	input_xyz(fd, &((obj->l)[obj->l_size - 1].org), &buf);
 	(obj->l)[obj->l_size - 1].ratio = input_ratio(fd, &buf);
-	input_color3(fd, &((obj->l)[obj->l_size - 1].rgb), &buf);
+	input_color3(fd, &((obj->l)[obj->l_size - 1].rgb), NULL, &buf);
 }
 
 void	check_half(int fd, char *buf, int *flag)
@@ -247,7 +280,8 @@ void	input_sphere(int fd, t_in_object *obj, char *buf)
 	check_half(fd, buf, &((obj->sp)[obj->sp_size - 1].flag));
 	input_xyz(fd, &((obj->sp)[obj->sp_size - 1].org), buf);
 	(obj->sp)[obj->sp_size - 1].r = make_float(fd, buf) / 2;
-	input_color3(fd, &((obj->sp)[obj->sp_size - 1].rgb), buf);
+	input_color3(fd, &((obj->sp)[obj->sp_size - 1].rgb),
+			&((obj->sp)[obj->sp_size - 1].bp), buf);
 	check_texture(fd, buf, &((obj->sp)[obj->sp_size - 1].texture));
 }
 
@@ -266,7 +300,8 @@ void	input_plane(int fd, t_in_object *obj, char *buf)
 	}
 	input_xyz(fd, &((obj->pl)[obj->pl_size - 1].org), buf);
 	input_vec(fd, &((obj->pl)[obj->pl_size - 1].org_vec), buf);
-	input_color3(fd, &((obj->pl)[obj->pl_size - 1].rgb), buf);
+	input_color3(fd, &((obj->pl)[obj->pl_size - 1].rgb),
+			&((obj->pl)[obj->pl_size - 1].bp), buf);
 	check_texture(fd, buf, &((obj->pl)[obj->pl_size - 1].texture));
 }
 
@@ -286,7 +321,8 @@ void	input_cone(int fd, t_in_object *obj, char *buf)
 	obj->co[obj->co_size - 1].a = make_float(fd, buf);
 	if (obj->co[obj->co_size - 1].a <= 0 || obj->co[obj->co_size - 1].a >= 90)
 		print_error("Wrong input: angle 0~90\n");
-	input_color3(fd, &((obj->co)[obj->co_size - 1].rgb), buf);
+	input_color3(fd, &((obj->co)[obj->co_size - 1].rgb),
+			&((obj->co)[obj->co_size - 1].bp), buf);
 	check_texture(fd, buf, &((obj->co)[obj->co_size - 1].texture));
 }
 
@@ -313,7 +349,8 @@ void	input_cylinder(int fd, t_in_object *obj, char *buf)
 	input_vec(fd, &((obj->cy)[obj->cy_size - 1].org_vec), buf);
 	obj->cy[obj->cy_size - 1].r = make_float(fd, buf) / 2;
 	obj->cy[obj->cy_size - 1].h = make_float(fd, buf);
-	input_color3(fd, &((obj->cy)[obj->cy_size - 1].rgb), buf);
+	input_color3(fd, &((obj->cy)[obj->cy_size - 1].rgb),
+			&((obj->cy)[obj->cy_size - 1].bp), buf);
 	check_texture(fd, buf, &((obj->cy)[obj->cy_size - 1].texture));
 }
 
