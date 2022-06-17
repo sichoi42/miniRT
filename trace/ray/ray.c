@@ -34,7 +34,6 @@ t_hit_record	record_init(void)
 	rec.t_min = EPSILON;
 	rec.t_max = INFINITY;
 	rec.texture = DEFAULT;
-	rec.obj = NULL;
 	return (rec);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:28:25 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 00:16:50 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 13:40:46 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,17 +138,19 @@ t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		rec->t = side_t;
 		rec->p = ray_at(ray, side_t);
 		cone_side_normal(co, &rec);
+		set_face_normal(ray, rec);
+		get_cone_uv(rec, co);
 	}
 	else
 	{
 		rec->t = cap_t;
 		rec->p = ray_at(ray, cap_t);
 		rec->normal = co->n;
+		set_face_normal(ray, rec);
+		get_plane_uv(rec);
 	}
-	set_face_normal(ray, rec);
 	// rec->albedo = obj->albedo;
 	rec->texture = co->texture;
-	get_cone_uv(rec, co);
 	hit_color_select(rec, obj);
 	// rec->obj = obj;
 	return (TRUE);

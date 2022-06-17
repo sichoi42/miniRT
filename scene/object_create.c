@@ -51,8 +51,8 @@ t_plane	*plane(t_in_plane *in_pl, void *mlx_ptr)
 	pl->bumpmap = malloc(sizeof(t_bumpmap));
 	if (pl->bumpmap == NULL)
 		exit(1);
-	pl->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
-	pl->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
+	pl->bumpmap->texture_img = get_xpm_img("./rt/rock.xpm", mlx_ptr);
+	pl->bumpmap->bump_img = get_xpm_img("./rt/rock_normal.xpm", mlx_ptr);
 	return (pl);
 }
 

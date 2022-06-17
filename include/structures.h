@@ -200,7 +200,6 @@ typedef struct s_hit_record
 	t_bool		front_face;
 	t_color3	albedo;
 	int			texture;
-	t_obj		*obj;
 	double		u;
 	double		v;
 	t_vec3		u_vec;

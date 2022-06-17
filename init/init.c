@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 01:21:43 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 13:13:24 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_xpm_image	*get_xpm_img(char *file_name, void *mlx_ptr)
 		exit(1);
 	xpm_img->img.img = mlx_xpm_file_to_image(mlx_ptr, file_name, &xpm_img->width, &xpm_img->height);
 	xpm_img->img.addr = mlx_get_data_addr(xpm_img->img.img, \
-	&xpm_img->img.bits_per_pixel, &xpm_img->img.line_length, &xpm_img->img.line_length);
+	&xpm_img->img.bits_per_pixel, &xpm_img->img.line_length, &xpm_img->img.endian);
 	return (xpm_img);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:42:46 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 01:21:12 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 14:19:13 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ t_vec3	mapping_bump_img(t_hit_record *rec, t_xpm_image *img)
 	normal_color = pixel_to_color3(mlx_color);
 	normal_color = vminus(vmult(normal_color, 2), vec3(1, 1, 1));
 	return (vec3(
-		rec->u_vec.x * rec->p.x + rec->v_vec.x * rec->p.y + rec->normal.x * rec->p.z,
-		rec->u_vec.y * rec->p.x + rec->v_vec.y * rec->p.y + rec->normal.y * rec->p.z,
-		rec->u_vec.z * rec->p.x + rec->v_vec.z * rec->p.y + rec->normal.z * rec->p.z
+		(rec->u_vec.x * normal_color.x) + (rec->v_vec.x * normal_color.y) + (rec->normal.x * normal_color.z),
+		(rec->u_vec.y * normal_color.x) + (rec->v_vec.y * normal_color.y) + (rec->normal.y * normal_color.z),
+		(rec->u_vec.z * normal_color.x) + (rec->v_vec.z * normal_color.y) + (rec->normal.z * normal_color.z)
 		));
 }
 
@@ -113,7 +113,8 @@ void	bump_mapping(t_hit_record *rec, t_obj *obj)
 	else
 		bmp = ((t_cone *)obj->element)->bumpmap;
 	rec->albedo = mapping_texture_img(rec->u, rec->v, bmp->texture_img);
-	// rec->normal = mapping_bump_img(rec, bmp->bump_img);
+	rec->normal = vunit(mapping_bump_img(rec, bmp->bump_img));
+	// printf("(%lf, %lf, %lf) %lf\n", rec->normal.x, rec->normal.y, rec->normal.z, vlength(rec->normal));
 }
 
 void	hit_color_select(t_hit_record *rec, t_obj *obj)
