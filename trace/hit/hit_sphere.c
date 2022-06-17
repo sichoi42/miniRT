@@ -6,13 +6,25 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:24 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 00:50:48 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 00:45:11 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "utils.h"
 #include "trace.h"
+
+void	get_sphere_uv(t_hit_record *rec)
+{
+	double	theta;
+	double	phi;
+
+	set_uv_map(rec->normal, &rec->u_vec, &rec->v_vec);
+	theta = acos(-1 * rec->normal.y);
+	phi = atan2(-1 * rec->normal.z, rec->normal.x) + M_PI;
+	rec->u = phi * M_1_PI * 0.5;
+	rec->v = theta * M_1_PI;
+}
 
 void	cutting_sphere(double *t, t_vec3 h[], t_point3 center)
 {
@@ -61,9 +73,12 @@ t_bool	hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec)
 		root = t[1];
 	rec->t = root;
 	rec->p = ray_at(ray, root);
-	rec->normal = vdivide(vminus(rec->p, sp->center), sp->radius);
-	rec->albedo = obj->albedo;
+	rec->normal = vunit(vdivide(vminus(rec->p, sp->center), sp->radius));
+	// rec->albedo = obj->albedo;
 	rec->texture = sp->texture;
+	// rec->obj = obj;
 	set_face_normal(ray, rec);
+	get_sphere_uv(rec);
+	hit_color_select(rec, obj);
 	return (TRUE);
 }

@@ -6,12 +6,26 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:12 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/16 00:57:19 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 13:35:28 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "trace.h"
+
+void	get_cylinder_uv(t_hit_record *rec, t_cylinder *cy)
+{
+	double	theta;
+	double	height;
+	t_vec3	ph;
+
+	set_uv_map(cy->normal, &rec->u_vec, &rec->v_vec);
+	ph = vminus(rec->p, cy->p);
+	theta = atan2(-1 * vdot(ph, rec->v_vec), vdot(ph, rec->u_vec)) + M_PI;
+	height = vdot(ph, cy->normal);
+	rec->u = theta * M_1_PI * 0.5;
+	rec->v = ft_fmod_abs(fmod(height, 1), 1);
+}
 
 double	hit_cylinder_side(t_cylinder *cy, t_ray *ray, t_hit_record *rec)
 {
@@ -103,15 +117,21 @@ t_bool	hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec)
 		rec->p = ray_at(ray, side_t);
 		ph = vminus(rec->p, cy->p);
 		rec->normal = vunit(vminus(ph, vmult(cy->normal, vdot(cy->normal, ph))));
+		set_face_normal(ray, rec);
+		get_cylinder_uv(rec, cy);
 	}
 	else
 	{
 		rec->t = cap_t;
 		rec->p = ray_at(ray, cap_t);
 		rec->normal = cy->normal;
+		set_face_normal(ray, rec);
+		get_plane_uv(rec);
 	}
-	set_face_normal(ray, rec);
-	rec->albedo = obj->albedo;
+	// rec->albedo = obj->albedo;
 	rec->texture = cy->texture;
+	// get_cylinder_uv(rec, cy);
+	hit_color_select(rec, obj);
+	// rec->obj = obj;
 	return (TRUE);
 }

@@ -19,7 +19,16 @@ t_color3	get_point_light(t_scene *scene, t_light *light);
 t_color3	phong_lighting(t_scene *scene);
 
 // texture.c
-void		apply_texture(t_hit_record *rec);
+void checkerboard(t_hit_record *rec);
+void set_uv_map(t_vec3 n, t_vec3 *u, t_vec3 *v);
+int rgb_extract(int mlx_color, t_color_mask type);
+t_color3 pixel_to_color3(int mlx_color);
+int xpm_pixel_get(t_xpm_image *img, int x, int y);
+t_color3 mapping_texture_img(double u, double v, t_xpm_image *img);
+t_vec3 mapping_bump_img(t_hit_record *rec, t_xpm_image *img);
+void bump_mapping(t_hit_record *rec, t_obj *obj);
+void hit_color_select(t_hit_record *rec, t_obj *obj);
+
 
 // -----in hit folder-----
 
@@ -29,16 +38,20 @@ t_bool		hit(t_obj *obj, t_ray *ray, t_hit_record *rec);
 t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec);
 
 // hit_sphere.c
+void		get_sphere_uv(t_hit_record *rec);
 t_bool		hit_sphere(t_obj *obj, t_ray *ray, t_hit_record *rec);
 
 // hit_plane.c
+void		get_plane_uv(t_hit_record *rec);
 t_bool		hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec);
 
 // hit_cylinder.c
+void		get_cylinder_uv(t_hit_record *rec, t_cylinder *cy);
 t_bool		hit_cylinder(t_obj *obj, t_ray *ray, t_hit_record * rec);
 
 // hit_cone.c
-t_bool	hit_cone(t_obj *obj, t_ray *ray, t_hit_record * rec);
+void		get_cone_uv(t_hit_record *rec, t_cone *co);
+t_bool		hit_cone(t_obj *obj, t_ray *ray, t_hit_record * rec);
 
 // normal.c
 void		set_face_normal(t_ray *ray, t_hit_record *rec);

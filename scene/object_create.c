@@ -1,6 +1,7 @@
 #include "structures.h"
 #include "parsing.h"
 #include "utils.h"
+#include "init.h"
 #include <stdlib.h>
 
 t_obj	*object(t_obj_type type, void *element, t_color3 albedo)
@@ -17,7 +18,7 @@ t_obj	*object(t_obj_type type, void *element, t_color3 albedo)
 	return (new);
 }
 
-t_sphere	*sphere(t_in_sphere *in_sp)
+t_sphere	*sphere(t_in_sphere *in_sp, void *mlx_ptr)
 {
 	t_sphere	*sp;
 
@@ -29,10 +30,15 @@ t_sphere	*sphere(t_in_sphere *in_sp)
 	sp->radius2 = sp->radius * sp->radius;
 	sp->flag = in_sp->flag;
 	sp->texture = in_sp->texture;
+	sp->bumpmap = malloc(sizeof(t_bumpmap));
+	if (sp->bumpmap == NULL)
+		exit(1);
+	sp->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
+	sp->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
 	return (sp);
 }
 
-t_plane	*plane(t_in_plane *in_pl)
+t_plane	*plane(t_in_plane *in_pl, void *mlx_ptr)
 {
 	t_plane	*pl;
 
@@ -42,10 +48,15 @@ t_plane	*plane(t_in_plane *in_pl)
 	pl->p = in_pl->org;
 	pl->normal = vunit(in_pl->org_vec);
 	pl->texture = in_pl->texture;
+	pl->bumpmap = malloc(sizeof(t_bumpmap));
+	if (pl->bumpmap == NULL)
+		exit(1);
+	pl->bumpmap->texture_img = get_xpm_img("./rt/rock.xpm", mlx_ptr);
+	pl->bumpmap->bump_img = get_xpm_img("./rt/rock_normal.xpm", mlx_ptr);
 	return (pl);
 }
 
-t_cylinder	*cylinder(t_in_cylinder *in_cy)
+t_cylinder	*cylinder(t_in_cylinder *in_cy, void *mlx_ptr)
 {
 	t_cylinder	*cy;
 
@@ -60,10 +71,15 @@ t_cylinder	*cylinder(t_in_cylinder *in_cy)
 	cy->bc = vplus(cy->p, vmult(cy->normal, -(cy->height) / 2));
 	cy->flag = in_cy->flag;
 	cy->texture = in_cy->texture;
+	cy->bumpmap = malloc(sizeof(t_bumpmap));
+	if (cy->bumpmap == NULL)
+		exit(1);
+	cy->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
+	cy->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
 	return (cy);
 }
 // p, n, degree, h
-t_cone	*cone(t_in_cone *in_co)
+t_cone	*cone(t_in_cone *in_co, void *mlx_ptr)
 {
 	t_cone	*co;
 
@@ -84,6 +100,11 @@ t_cone	*cone(t_in_cone *in_co)
 	co->flip_n = vflip(co->n);
 	co->t = vplus(co->p, vmult(co->n, co->h));
 	co->texture = in_co->texture;
+	co->bumpmap = malloc(sizeof(t_bumpmap));
+	if (co->bumpmap == NULL)
+		exit(1);
+	co->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
+	co->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
 	return (co);
 }
 // orig, color, ratio

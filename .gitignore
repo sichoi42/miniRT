@@ -5,3 +5,4 @@ miniRT
 *.swiftdoc
 *.swiftmodule
 *.swiftsourceinfo
+.DS_Store
