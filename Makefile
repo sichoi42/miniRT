@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/06/17 16:50:24 by swi              ###   ########.fr        #
+#    Updated: 2022/06/17 18:56:46 by sichoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,12 @@ FUNC = ./draw\
 	./trace/hit/hit_cylinder_cap\
 	./trace/hit/hit_cylinder\
 	./trace/hit/hit_cone\
-
-
+	./trace/hit/hit_cone_side\
+	./trace/ray/bumpmap\
+	./trace/ray/checkerboard\
+	./trace/ray/hit_color_select\
+	./trace/ray/phong_lighting\
+	./trace/ray/ray\
 	./utils/obj_utils\
 	./utils/vec3_utils\
 	./utils/vec3_init\
@@ -92,9 +96,11 @@ $(LIB_MLX):
 	@echo "$(NAME): $(GREEN) $(MLX_NAME) was created! $(CHECK) $(RESET)"
 
 norm :
-	@Norminette *.c include/ init/ print/ scene/ trace/ utils
+	Norminette *.c include/ init/ print/ scene/ trace/ utils/ base/ parse/
 
 all : $(NAME)
+
+bonus : all
 
 clean :
 	@$(MAKE) -sC $(MLX_DIR) clean
