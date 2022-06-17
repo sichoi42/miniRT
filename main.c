@@ -139,6 +139,7 @@ void	input_bp(int fd, char ***bp, char *buf)
 	char	*str;
 	int		len;
 
+	*bp = malloc_array(sizeof(char *), 2);
 	str = read_to_str(fd, buf);
 	(*bp)[0] = str;
 	len = ft_strlen(str);

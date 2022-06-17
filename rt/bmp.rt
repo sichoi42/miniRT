@@ -11,14 +11,14 @@
 # Half_Sphere(sp2)     Center    Diameter  Color                        TEXTURE
 # Cylinder_no_cap(cy2) Center    Normal    Diameter    Height    Color  TEXTURE
 
-A 0.1                  255,255,255
+A 0.1                     rgb    255,255,255
 C -3,2,1   1,-1,-1 90
-L -5,5,0             0.1         255,255,255
+L -5,5,0             0.1  rgb    255,255,255
 
-sp -0.5,0,-1  1   255,255,255 1
-cy2 -2,0,-1.2  -1,0,0 1  2  255,255,255 1
-pl 0,-0.5,0        0,1,0     0,127,127   1
-co 1,-0.5,-0.8  0,1,0 2  30  255,255,255 1
+sp -0.5,0,-1  1   rgb 255,255,255 0
+cy2 -2,0,-1.2  -1,0,0 1  2   rgb 255,255,255 0
+pl 0,-0.5,0        0,1,0   bp ./rock.xpm ./rock_normal.xpm  1
+co 1,-0.5,-0.8  0,1,0 2  30 rgb 255,255,255 0
 # cy 1,-0.5,-1  0,1,0   1 1 bm ./input_bonus/block.xpm ./input_bonus/block_normal.xpm 1 0.1 10
 # pl 0,0,-5     0,0,1     ck 30,127,30  255,255,255 4 4 1 0.5 64
 # pl 7,0,0        1,0,0    rgb 127,30,30 1 0.5 64
