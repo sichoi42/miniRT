@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   checkerboard.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 15:25:33 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 15:25:33 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/17 18:13:40 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 18:13:53 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include "trace.h"
 
-# include "structures.h"
-# include "parsing.h"
+void	checkerboard(t_hit_record *rec)
+{
+	t_point3	is_black;
 
-t_obj	*adding_objects(t_in_object *in_obj, t_obj **light);
-t_scene	*scene_init(t_scene *scene, t_in_object *in_obj);
-void	init_mlx(t_mlx *mlx, t_scene *scene);
-void	draw(t_in_object *in_obj);
-
-#endif
+	is_black.x = abs((int)floor(rec->p.x)) & 1;
+	is_black.y = abs((int)floor(rec->p.y)) & 1;
+	is_black.z = abs((int)floor(rec->p.z)) & 1;
+	if ((int)is_black.x ^ (int)is_black.y ^ (int)is_black.z)
+		rec->albedo = color3(0, 0, 0);
+	else
+		rec->albedo = color3(1, 1, 1);
+}

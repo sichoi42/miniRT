@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 13:13:24 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 16:12:17 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ t_xpm_image	*get_xpm_img(char *file_name, void *mlx_ptr)
 	xpm_img = malloc(sizeof(t_xpm_image));
 	if (xpm_img == NULL)
 		exit(1);
-	xpm_img->img.img = mlx_xpm_file_to_image(mlx_ptr, file_name, &xpm_img->width, &xpm_img->height);
+	xpm_img->img.img = mlx_xpm_file_to_image(mlx_ptr, file_name, \
+	&xpm_img->width, &xpm_img->height);
 	xpm_img->img.addr = mlx_get_data_addr(xpm_img->img.img, \
-	&xpm_img->img.bits_per_pixel, &xpm_img->img.line_length, &xpm_img->img.endian);
+	&xpm_img->img.bits_per_pixel, \
+	&xpm_img->img.line_length, \
+	&xpm_img->img.endian);
 	return (xpm_img);
 }
 
@@ -54,19 +57,6 @@ t_obj	*adding_objects(t_in_object *in_obj, t_obj **light, void *mlx_ptr)
 	return (objs);
 }
 
-// void	init_scene(t_scene *scene, t_in_object *in_obj, void *mlx_ptr)
-// {
-// 	if (in_obj->w == NULL)
-// 		scene->canvas = canvas(DEFAULT_WINDOW_W, DEFAULT_WINDOW_H);
-// 	else
-// 		scene->canvas = canvas(in_obj->w->width, in_obj->w->height);
-// 	scene->ambient = vmult(in_obj->a->rgb, in_obj->a->ratio);
-// 	scene->camera = camera(&scene->canvas, in_obj->c);
-// 	scene->light = NULL;
-// 	scene->objs = adding_objects(in_obj, &scene->light, mlx_ptr);
-// 	free_in_object(in_obj);
-// }
-
 void	init(t_scene *scene, t_mlx *mlx, t_in_object *in_obj)
 {
 	if (in_obj->w == NULL)
@@ -74,19 +64,16 @@ void	init(t_scene *scene, t_mlx *mlx, t_in_object *in_obj)
 	else
 		scene->canvas = canvas(in_obj->w->width, in_obj->w->height);
 	mlx->mlx_ptr = mlx_init();
-	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, scene->canvas.width, scene->canvas.height, "miniRT");
-	mlx->img.img = mlx_new_image(mlx->mlx_ptr, scene->canvas.width, scene->canvas.height);
-	// mlx->img.img = mlx_xpm_file_to_image(mlx->mlx_ptr, "./rt/block.xpm", &scene->canvas.width, &scene->canvas.height);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
+	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, \
+	scene->canvas.width, scene->canvas.height, "miniRT");
+	mlx->img.img = mlx_new_image(mlx->mlx_ptr, scene->canvas.width, \
+	scene->canvas.height);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bits_per_pixel, \
+	&mlx->img.line_length, &mlx->img.endian);
 	scene->ambient = vmult(in_obj->a->rgb, in_obj->a->ratio);
 	scene->camera = camera(&scene->canvas, in_obj->c);
 	scene->light = NULL;
 	scene->objs = adding_objects(in_obj, &scene->light, mlx->mlx_ptr);
 	scene->mlx = mlx;
 	free_in_object(in_obj);
-
-
-
-	// init_scene(scene, in_obj, scene->mlx->mlx_ptr);
-	// init_mlx(scene, mlx);
 }

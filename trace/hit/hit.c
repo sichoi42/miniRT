@@ -1,6 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hit.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/17 16:33:24 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 16:57:10 by sichoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "trace.h"
 
-double		validate_root(t_discrim d, t_hit_record *rec)
+t_bool	check_root(double t[], t_hit_record *rec, t_discrim d)
+{
+	t[0] = (-d.half_b - d.sqrt_d) / d.a;
+	t[1] = (-d.half_b + d.sqrt_d) / d.a;
+	if (t[0] < rec->t_min || t[0] > rec->t_max)
+		t[0] = INFINITY;
+	if (t[1] < rec->t_min || t[1] > rec->t_max)
+		t[1] = INFINITY;
+	if (t[0] == INFINITY && t[1] == INFINITY)
+		return (FALSE);
+	return (TRUE);
+}
+
+double	validate_root(t_discrim d, t_hit_record *rec)
 {
 	double	root;
 
@@ -14,7 +39,7 @@ double		validate_root(t_discrim d, t_hit_record *rec)
 	return (root);
 }
 
-t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
+t_bool	hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_bool	hit_result;
 
@@ -30,18 +55,17 @@ t_bool		hit_obj(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	return (hit_result);
 }
 
-t_bool		hit(t_obj *obj, t_ray *ray, t_hit_record *rec)
+t_bool	hit(t_obj *obj, t_ray *ray, t_hit_record *rec)
 {
 	t_bool			is_hit;
 	t_hit_record	temp_rec;
 
-	temp_rec = *rec; // t_min, t_max 초기화.
+	temp_rec = *rec;
 	is_hit = FALSE;
 	while (obj)
 	{
 		if (hit_obj(obj, ray, &temp_rec))
 		{
-			// printf("%d", obj->type); fflush(0);
 			is_hit = TRUE;
 			temp_rec.t_max = temp_rec.t;
 			*rec = temp_rec;

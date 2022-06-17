@@ -1,31 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/17 16:13:04 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 18:12:06 by sichoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "print.h"
 #include "utils.h"
 
-static int	color_calc(double rgb)
+int	rgb_extract(int mlx_color, t_color_mask type)
 {
-	return (clamp((int)(256 * rgb), 0, 255));
+	return ((mlx_color >> type) & 0xFF);
 }
 
-int	color3_to_pixel(t_color3 color)
+t_color3	pixel_to_color3(int mlx_color)
 {
-	int	pixel;
+	double	r;
+	double	g;
+	double	b;
 
-	pixel = 0;
-	pixel |= color_calc(color.x) << 16;
-	pixel |= color_calc(color.y) << 8;
-	pixel |= color_calc(color.z);
-	return (pixel);
+	r = (double)rgb_extract(mlx_color, RED) / 256;
+	g = (double)rgb_extract(mlx_color, GREEN) / 256;
+	b = (double)rgb_extract(mlx_color, BLUE) / 256;
+	return (color3(r, g, b));
 }
-
-// void	ft_mlx_pixel_put(t_scene *scene, int color, int x, int y)
-// {
-// 	t_image	*img;
-// 	char	*dst;
-
-// 	img = &scene->mlx->img;
-// 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-// 	*(unsigned int *)dst = color;
-// }
 
 void	ft_mlx_pixel_put(t_scene *scene, t_color3 *pixel_color, int x, int y)
 {
@@ -35,7 +38,6 @@ void	ft_mlx_pixel_put(t_scene *scene, t_color3 *pixel_color, int x, int y)
 	int		b;
 	t_image	*img;
 
-	// printf("%lf, %lf, %lf\n", pixel_color->x, pixel_color->y, pixel_color->z);
 	img = &scene->mlx->img;
 	pixel = img->bits_per_pixel / 8;
 	r = (int)(255.999 * sqrt(pixel_color->x));
@@ -44,4 +46,15 @@ void	ft_mlx_pixel_put(t_scene *scene, t_color3 *pixel_color, int x, int y)
 	img->addr[(x * pixel) + (y * img->line_length) + 2] = r;
 	img->addr[(x * pixel) + (y * img->line_length) + 1] = g;
 	img->addr[(x * pixel) + (y * img->line_length)] = b;
+}
+
+int	xpm_pixel_get(t_xpm_image *img, int x, int y)
+{
+	char	*dst;
+
+	x = clamp(x, 0, img->width - 1);
+	y = clamp(y, 0, img->height - 1);
+	dst = img->img.addr + (y * img->img.line_length + \
+											x * (img->img.bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
 }

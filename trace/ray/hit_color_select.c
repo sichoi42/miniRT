@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   hit_color_select.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 15:25:33 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 15:25:33 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/15 15:42:46 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 18:14:30 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include "trace.h"
 
-# include "structures.h"
-# include "parsing.h"
-
-t_obj	*adding_objects(t_in_object *in_obj, t_obj **light);
-t_scene	*scene_init(t_scene *scene, t_in_object *in_obj);
-void	init_mlx(t_mlx *mlx, t_scene *scene);
-void	draw(t_in_object *in_obj);
-
-#endif
+void	hit_color_select(t_hit_record *rec, t_obj *obj)
+{
+	if (rec->texture == CHECKERBOARD)
+		checkerboard(rec);
+	else if (rec->texture == BUMP_MAP)
+		bump_mapping(rec, obj);
+	else
+		rec->albedo = obj->albedo;
+}
