@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swi <swi@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 16:57:59 by swi               #+#    #+#             */
-/*   Updated: 2022/06/17 16:58:00 by swi              ###   ########.fr       */
+/*   Created: 2022/06/17 16:27:36 by swi               #+#    #+#             */
+/*   Updated: 2022/06/17 16:27:38 by swi              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include <stdlib.h>
 
-void	*ft_realloc(void *ptr, int ptr_size, int new_size)
+void	check_half(int fd, char *buf, int *flag)
 {
-	char	*temp;
-	char	*cp_ptr;
-	int		i;
+	pass_space(fd, buf, "");
+	if (*buf == '2')
+		*flag = 1;
+	else
+		*flag = 0;
+}
 
-	temp = (char *)malloc(new_size);
-	if (temp == NULL)
-		print_error(NULL);
-	cp_ptr = (char *)ptr;
-	i = -1;
-	while (++i < ptr_size)
-		temp[i] = cp_ptr[i];
-	free(ptr);
-	return (temp);
+void	check_texture(int fd, char *buf, int *texture)
+{
+	pass_space(fd, buf, " \t");
+	if (*buf == '0')
+		*texture = 0;
+	else if (*buf == '1')
+		*texture = 1;
+	else
+		print_error("Wrong input: not texture\n");
 }

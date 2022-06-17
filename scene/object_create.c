@@ -3,6 +3,8 @@
 #include "utils.h"
 #include "init.h"
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 void	close_fds(int fd[])
 {

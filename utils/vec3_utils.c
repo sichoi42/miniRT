@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "parsing.h"
 
 //벡터3 생성자
 t_vec3	vec3(double x, double y, double z)
@@ -140,7 +141,7 @@ t_vec3	vunit(t_vec3 vec)
 	if (len == 0)
 	{
 		printf("%lf %lf %lf\n", vec.x, vec.y, vec.z);
-		("Error\n:Devider is 0");
+		print_error("Devider is 0");
 		exit(0);
 	}
 	vec.x /= len;
