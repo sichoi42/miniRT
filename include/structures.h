@@ -1,10 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/17 15:27:00 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 16:41:14 by sichoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
+
+// =============================================================================
+// Defined for Express Boolean
+// =============================================================================
 # define TRUE 1
 # define FALSE 0
 
+// =============================================================================
+// Defined Default WinSize
+// =============================================================================
 # define DEFAULT_WINDOW_W 1600
 # define DEFAULT_WINDOW_H 900
+
 // =============================================================================
 // Defined for Objects Flag
 // =============================================================================
@@ -28,6 +48,9 @@
 # define CHECKERBOARD 1
 # define BUMP_MAP 2
 
+// =============================================================================
+// Defined for Calculate Color
+// =============================================================================
 typedef enum e_color_mask
 {
 	RED = 16,
@@ -39,7 +62,7 @@ typedef enum e_color_mask
 // Defined for Hit Calulation
 // =============================================================================
 # define EPSILON 1e-6
-# define LUMEN 3 // 밝기 조절.
+# define LUMEN 3
 
 // =============================================================================
 // Defined for Mlx Key
@@ -48,34 +71,48 @@ typedef enum e_color_mask
 # define DESTROY 17
 # define ESC 53
 
-typedef int t_bool;
-typedef int t_obj_type;
-
-typedef struct s_vec3 t_vec3;
-typedef struct s_vec3 t_point3;
-typedef struct s_vec3 t_color3;
+// =============================================================================
+// Typedef Structures
+// =============================================================================
+typedef int				t_bool;
+typedef int				t_obj_type;
+typedef struct s_vec3	t_vec3;
+typedef struct s_vec3	t_point3;
+typedef struct s_vec3	t_color3;
 
 struct s_vec3
 {
-	double x;
-	double y;
-	double z;
+	double	x;
+	double	y;
+	double	z;
 };
 
+// =============================================================================
+// Defined for Ray from Camera Eye
+// =============================================================================
 typedef struct s_ray
 {
 	t_point3	orig;
 	t_vec3		dir;
 }	t_ray;
 
-typedef	struct s_camera
+// =============================================================================
+// Define for Camera Info
+// t_point3		orig				->	Position of Camera
+// double		viewport_h, w		->	Length of Viewport
+// double		horizon, vertical	->	hori, verti Vector of Viewport
+// t_point3		left_bottom			->	Left Bottom point of Viewport
+// t_vec3		dir					->	Direction of Camera Eye
+// t_vec3		u, v, w				->	New axises of Camera
+// double		fov					->	Vertical Field of View
+// =============================================================================
+typedef struct s_camera
 {
-	t_point3	orig; // 카메라의 위치(원점)
-	double		viewport_h; // viewport의 세로길이
-	double		viewport_w; // viewport의 가로길이
-	t_vec3		horizontal; // 수평길이 Vector
-	t_vec3		vertical; // 수직길이 Vector
-	double		focal_len;
+	t_point3	orig;
+	double		viewport_h;
+	double		viewport_w;
+	t_vec3		horizontal;
+	t_vec3		vertical;
 	t_point3	left_bottom;
 	t_vec3		dir;
 	t_vec3		u;
@@ -88,9 +125,12 @@ typedef struct s_canvas
 {
 	int		width;
 	int		height;
-	double	aspect_ratio; // 종횡비
+	double	aspect_ratio;
 }	t_canvas;
 
+// =============================================================================
+// Defined for Image of Mlx
+// =============================================================================
 typedef struct s_image
 {
 	void	*img;
@@ -100,6 +140,9 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
+// =============================================================================
+// Defined for Mlx
+// =============================================================================
 typedef struct s_mlx
 {
 	void		*mlx_ptr;
@@ -107,6 +150,9 @@ typedef struct s_mlx
 	t_image		img;
 }	t_mlx;
 
+// =============================================================================
+// Defined for Input Xpm Images
+// =============================================================================
 typedef struct s_xpm_image
 {
 	t_image		img;
@@ -114,14 +160,18 @@ typedef struct s_xpm_image
 	int			height;
 }	t_xpm_image;
 
+// =============================================================================
+// Defined for Bumpmapping Xpm images
+// =============================================================================
 typedef struct s_bumpmap
 {
 	t_xpm_image	*texture_img;
 	t_xpm_image	*bump_img;
 }	t_bumpmap;
 
-// Structures for objs
-
+// =============================================================================
+// Defined for Objs Info
+// =============================================================================
 typedef struct s_sphere
 {
 	t_point3	center;
@@ -163,8 +213,6 @@ typedef struct s_cone
 	double		sin;
 	double		cos2;
 	double		sin2;
-	double		tan;
-	double		tan2;
 	t_point3	p;
 	t_vec3		n;
 	t_vec3		flip_n;
@@ -190,6 +238,9 @@ typedef struct s_obj
 	struct s_obj	*next;
 }	t_obj;
 
+// =============================================================================
+// Defined for Input Hit Record
+// =============================================================================
 typedef struct s_hit_record
 {
 	t_point3	p;
@@ -206,6 +257,9 @@ typedef struct s_hit_record
 	t_vec3		v_vec;
 }	t_hit_record;
 
+// =============================================================================
+// Defined for input Discrimination of Object Hit
+// =============================================================================
 typedef struct s_discrim
 {
 	double	a;
@@ -215,6 +269,9 @@ typedef struct s_discrim
 	double	sqrt_d;
 }	t_discrim;
 
+// =============================================================================
+// Defined for Connecting All Structures
+// =============================================================================
 typedef struct s_scene
 {
 	t_mlx			*mlx;

@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:17 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 00:18:54 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/17 16:49:39 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_bool	hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	t_vec3	op;
 	double	denominator;
 	double	numerator;
-
 	double	t;
 
 	pl = (t_plane *)obj->element;
@@ -43,11 +42,9 @@ t_bool	hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	rec->normal = vunit(pl->normal);
 	rec->p = ray_at(ray, t);
 	rec->p = vplus(rec->p, vmult(rec->normal, EPSILON));
-	// rec->albedo = obj->albedo;
 	rec->texture = pl->texture;
 	set_face_normal(ray, rec);
 	get_plane_uv(rec);
 	hit_color_select(rec, obj);
-	// rec->obj = obj;
 	return (TRUE);
 }

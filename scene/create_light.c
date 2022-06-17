@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   create_light.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 15:25:33 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 15:25:33 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/17 16:26:33 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 16:53:44 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include "structures.h"
+#include "parsing.h"
+#include "utils.h"
+#include "init.h"
+#include <stdlib.h>
 
-# include "structures.h"
-# include "parsing.h"
+t_light	*point_light(t_in_light *in_light)
+{
+	t_light	*light;
 
-t_obj	*adding_objects(t_in_object *in_obj, t_obj **light);
-t_scene	*scene_init(t_scene *scene, t_in_object *in_obj);
-void	init_mlx(t_mlx *mlx, t_scene *scene);
-void	draw(t_in_object *in_obj);
-
-#endif
+	light = malloc(sizeof(t_light));
+	if (light == NULL)
+		exit(1);
+	light->orig = in_light->org;
+	light->light_color = in_light->rgb;
+	light->bright_ratio = in_light->ratio;
+	return (light);
+}

@@ -1,37 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj_utils.c                                        :+:      :+:    :+:   */
+/*   vec3_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 17:28:40 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 17:28:41 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/17 17:32:43 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 17:36:19 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	obj_add(t_obj **lst, t_obj *new)
+//벡터3 생성자
+t_vec3	vec3(double x, double y, double z)
 {
-	t_obj	*p;
+	t_vec3	vec;
 
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	p = *lst;
-	while (p->next)
-		p = p->next;
-	p->next = new;
+	vec.x = x;
+	vec.y = y;
+	vec.z = z;
+	return (vec);
 }
 
-t_obj	*obj_last(t_obj *lst)
+//포인트3 생성자
+t_point3	point3(double x, double y, double z)
 {
-	if (lst == NULL)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+	t_point3	point;
+
+	point.x = x;
+	point.y = y;
+	point.z = z;
+	return (point);
+}
+
+//색상3 생성자
+t_point3	color3(double r, double g, double b)
+{
+	t_color3	color;
+
+	color.x = r;
+	color.y = g;
+	color.z = b;
+	return (color);
 }

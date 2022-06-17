@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 15:25:33 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 15:25:33 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/17 17:29:19 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 17:31:35 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include "utils.h"
 
-# include "structures.h"
-# include "parsing.h"
+double	degree_to_radian(double degree)
+{
+	return (M_PI * degree / 180.0);
+}
 
-t_obj	*adding_objects(t_in_object *in_obj, t_obj **light);
-t_scene	*scene_init(t_scene *scene, t_in_object *in_obj);
-void	init_mlx(t_mlx *mlx, t_scene *scene);
-void	draw(t_in_object *in_obj);
+double	radian_to_degree(double radian)
+{
+	return (180.0 * radian / M_PI);
+}
 
-#endif
+double	ft_fmod_abs(double x, double mod)
+{
+	if (x < 0)
+		return (x + mod);
+	return (x);
+}
+
+int	clamp(int x, int min, int max)
+{
+	if (x < min)
+		return (min);
+	if (x > max)
+		return (max);
+	return (x);
+}
