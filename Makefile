@@ -34,18 +34,28 @@ FUNC = ./draw\
 	./print/print\
 	./scene/camera\
 	./scene/canvas\
+	./scene/create_cone\
+	./scene/create_cylinder\
+	./scene/create_light\
+	./scene/create_plane\
+	./scene/create_sphere\
 	./scene/object_create\
 	./trace/hit/normal\
 	./trace/hit/hit\
 	./trace/hit/hit_plane\
 	./trace/hit/hit_sphere\
+	./trace/hit/hit_cylinder_cap\
 	./trace/hit/hit_cylinder\
 	./trace/hit/hit_cone\
-	./trace/ray/ray\
-	./trace/ray/phong_lighting\
-	./trace/ray/texture\
+
+
 	./utils/obj_utils\
 	./utils/vec3_utils\
+	./utils/vec3_init\
+	./utils/vec3_calc\
+	./utils/vec3_calc2\
+	./utils/mlx_utils\
+	./utils/math_utils\
 	./main\
 	./base/ft_memset\
 	./base/print_error\
@@ -80,6 +90,9 @@ $(NAME) : $(LIB_MLX) $(OBJ)
 $(LIB_MLX):
 	$(MAKE) -sC $(MLX_DIR)
 	@echo "$(NAME): $(GREEN) $(MLX_NAME) was created! $(CHECK) $(RESET)"
+
+norm :
+	@Norminette *.c include/ init/ print/ scene/ trace/ utils
 
 all : $(NAME)
 

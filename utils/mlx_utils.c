@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 15:25:33 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 15:25:33 by sichoi           ###   ########.fr       */
+/*   Created: 2022/06/17 16:08:04 by sichoi            #+#    #+#             */
+/*   Updated: 2022/06/17 18:33:11 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include "structures.h"
+#include <stdlib.h>
 
-# include "structures.h"
-# include "parsing.h"
+int	key_exit(int param)
+{
+	exit(param);
+	return (0);
+}
 
-t_obj	*adding_objects(t_in_object *in_obj, t_obj **light);
-t_scene	*scene_init(t_scene *scene, t_in_object *in_obj);
-void	init_mlx(t_mlx *mlx, t_scene *scene);
-void	draw(t_in_object *in_obj);
-
-#endif
+int	key_esc(int key)
+{
+	if (key == ESC)
+		key_exit(0);
+	return (0);
+}
