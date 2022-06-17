@@ -140,7 +140,7 @@ t_vec3	vunit(t_vec3 vec)
 	if (len == 0)
 	{
 		printf("%lf %lf %lf\n", vec.x, vec.y, vec.z);
-		printf("Error\n:Devider is 0");
+		("Error\n:Devider is 0");
 		exit(0);
 	}
 	vec.x /= len;

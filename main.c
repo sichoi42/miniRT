@@ -171,7 +171,7 @@ void	input_color3(int fd, t_color3 *rgb, char ***bp, char *buf)
 		str = read_to_str(fd, buf, 0);
 		rgb->z = (unsigned char)stoi_rgb(str) / 255.999;
 		free(str);
-		printf("%f %f %f\n", rgb->x, rgb->y, rgb->z);
+		// printf("%f %f %f\n", rgb->x, rgb->y, rgb->z);
 		return ;
 	}
 	else if (ft_strcmp(str, "bp") != 0 || bp == NULL)

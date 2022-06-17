@@ -11,10 +11,10 @@
 # Half_Sphere(sp2)     Center    Diameter  Color                        TEXTURE
 # Cylinder_no_cap(cy2) Center    Normal    Diameter    Height    Color  TEXTURE
 
-A    0.1   255,255,255
+A    0.1 rgb  255,255,255
 W  900 600
 C   0,5.25,0      0,-1,-1     95
-L   -10, 10,-5    0.5   255,255,255
-pl   0,-2,0    0,1,0   0,127,127      0
-pl   0,0,-10    0,0,1   0,127,127     0
-cy 0,3,-3 0,1,0 4 4 255,0,0           0
+L   -10, 10,-5    0.5  rgb 255,255,255
+pl   0,-2,0    0,1,0  rgb 0,127,127      0
+pl   0,0,-10    0,0,1  rgb 0,127,127     0
+cy 0,3,-3 0,1,0 4 4     rgb 255,0,0           0
