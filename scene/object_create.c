@@ -33,8 +33,10 @@ t_sphere	*sphere(t_in_sphere *in_sp, void *mlx_ptr)
 	sp->bumpmap = malloc(sizeof(t_bumpmap));
 	if (sp->bumpmap == NULL)
 		exit(1);
-	sp->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
-	sp->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
+	if (in_sp->bp)
+		sp->texture = BUMP_MAP;
+	sp->bumpmap->texture_img = get_xpm_img(in_sp->bp[0], mlx_ptr);
+	sp->bumpmap->bump_img = get_xpm_img(in_sp->bp[1], mlx_ptr);
 	return (sp);
 }
 
@@ -51,8 +53,10 @@ t_plane	*plane(t_in_plane *in_pl, void *mlx_ptr)
 	pl->bumpmap = malloc(sizeof(t_bumpmap));
 	if (pl->bumpmap == NULL)
 		exit(1);
-	pl->bumpmap->texture_img = get_xpm_img("./rt/rock.xpm", mlx_ptr);
-	pl->bumpmap->bump_img = get_xpm_img("./rt/rock_normal.xpm", mlx_ptr);
+	if (in_pl->bp)
+		pl->texture = BUMP_MAP;
+	pl->bumpmap->texture_img = get_xpm_img(in_pl->bp[0], mlx_ptr);
+	pl->bumpmap->bump_img = get_xpm_img(in_pl->bp[1], mlx_ptr);
 	return (pl);
 }
 
@@ -74,8 +78,10 @@ t_cylinder	*cylinder(t_in_cylinder *in_cy, void *mlx_ptr)
 	cy->bumpmap = malloc(sizeof(t_bumpmap));
 	if (cy->bumpmap == NULL)
 		exit(1);
-	cy->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
-	cy->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
+	if (in_cy->bp)
+		cy->texture = BUMP_MAP;
+	cy->bumpmap->texture_img = get_xpm_img(in_cy->bp[0], mlx_ptr);
+	cy->bumpmap->bump_img = get_xpm_img(in_cy->bp[1], mlx_ptr);
 	return (cy);
 }
 // p, n, degree, h
@@ -103,10 +109,13 @@ t_cone	*cone(t_in_cone *in_co, void *mlx_ptr)
 	co->bumpmap = malloc(sizeof(t_bumpmap));
 	if (co->bumpmap == NULL)
 		exit(1);
-	co->bumpmap->texture_img = get_xpm_img("./rt/block.xpm", mlx_ptr);
-	co->bumpmap->bump_img = get_xpm_img("./rt/block_normal.xpm", mlx_ptr);
+	if (in_co->bp)
+		co->texture = BUMP_MAP;
+	co->bumpmap->texture_img = get_xpm_img(in_co->bp[0], mlx_ptr);
+	co->bumpmap->bump_img = get_xpm_img(in_co->bp[1], mlx_ptr);
 	return (co);
 }
+
 // orig, color, ratio
 t_light	*point_light(t_in_light *in_light)
 {
