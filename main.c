@@ -46,11 +46,11 @@ void	pass_space(int fd, char *buf, char *space)
 		*buf = '\0';
 }
 
-void	check_str(char *str)
+void	check_str(char *str, int no_ck)
 {
 	int dot;
 
-	if (ft_strcmp(str, "rgb") == 0 || ft_strcmp(str, "bp") == 0)
+	if (ft_strcmp(str, "rgb") == 0 || ft_strcmp(str, "bp") == 0 || no_ck == 1)
 		return ;
 	dot = 0;
 	if (*str == '+' || *str == '-' || *str == '.')
@@ -76,7 +76,7 @@ void	check_str(char *str)
 	}
 }
 
-char	*read_to_str(int fd, char *buf)
+char	*read_to_str(int fd, char *buf, int no_ck)
 {
 	char	*str;
 	int		size;
@@ -100,7 +100,7 @@ char	*read_to_str(int fd, char *buf)
 		size = ft_read(fd, buf, 1);
 	}
 	str[i] = '\0';
-	check_str(str);
+	check_str(str, no_ck);
 	return (str);
 }
 
@@ -111,7 +111,7 @@ double	make_float(int fd, char *buf)
 	char		*str;
 	double		result;
 
-	str = read_to_str(fd, buf);
+	str = read_to_str(fd, buf, 0);
 	num = stof_front(str);
 	decimal = stof_behind(str);
 	result = decimal;
@@ -140,16 +140,16 @@ void	input_bp(int fd, char ***bp, char *buf)
 	int		len;
 
 	*bp = malloc_array(sizeof(char *), 2);
-	str = read_to_str(fd, buf);
+	str = read_to_str(fd, buf, 1);
 	(*bp)[0] = str;
 	len = ft_strlen(str);
-	if (ft_strcmp(str + len - 4, ".xmp") != 0)
-		print_error("Wrong input: xmp format error\n");
-	str = read_to_str(fd, buf);
+	if (ft_strcmp(str + len - 4, ".xpm") != 0)
+		print_error("Wrong input: xpm format error\n");
+	str = read_to_str(fd, buf, 1);
 	(*bp)[1] = str;
 	len = ft_strlen(str);
-	if (ft_strcmp(str + len - 4, ".xmp") != 0)
-		print_error("Wrong input: xmp format error\n");
+	if (ft_strcmp(str + len - 4, ".xpm") != 0)
+		print_error("Wrong input: xpm format error\n");
 }
 
 void	input_color3(int fd, t_color3 *rgb, char ***bp, char *buf)
@@ -158,17 +158,17 @@ void	input_color3(int fd, t_color3 *rgb, char ***bp, char *buf)
 
 	if (bp != NULL)
 		*bp = NULL;
-	str = read_to_str(fd, buf);
+	str = read_to_str(fd, buf, 0);
 	if (ft_strcmp(str, "rgb") == 0)
 	{
 		free(str);
-		str = read_to_str(fd, buf);
+		str = read_to_str(fd, buf, 0);
 		rgb->x = (unsigned char)stoi_rgb(str) / 255.999;
 		free(str);
-		str = read_to_str(fd, buf);
+		str = read_to_str(fd, buf, 0);
 		rgb->y = (unsigned char)stoi_rgb(str) / 255.999;
 		free(str);
-		str = read_to_str(fd, buf);
+		str = read_to_str(fd, buf, 0);
 		rgb->z = (unsigned char)stoi_rgb(str) / 255.999;
 		free(str);
 		printf("%f %f %f\n", rgb->x, rgb->y, rgb->z);
@@ -364,10 +364,10 @@ void	input_window(int fd, t_in_object *obj)
 		obj->w = malloc_array(sizeof(t_in_window), 1);
 	else
 		print_error("Wrong input: window only one\n");
-	str = read_to_str(fd, &buf);
+	str = read_to_str(fd, &buf, 0);
 	obj->w->width = ft_stoi(str);
 	free(str);
-	str = read_to_str(fd, &buf);
+	str = read_to_str(fd, &buf, 0);
 	obj->w->height = ft_stoi(str);
 	free(str);
 }
