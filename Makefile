@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/06/17 18:31:58 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/17 16:50:24 by swi              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,12 +47,8 @@ FUNC = ./draw\
 	./trace/hit/hit_cylinder_cap\
 	./trace/hit/hit_cylinder\
 	./trace/hit/hit_cone\
-	./trace/hit/hit_cone_side\
-	./trace/ray/ray\
-	./trace/ray/phong_lighting\
-	./trace/ray/bumpmap\
-	./trace/ray/checkerboard\
-	./trace/ray/hit_color_select\
+
+
 	./utils/obj_utils\
 	./utils/vec3_utils\
 	./utils/vec3_init\
@@ -68,7 +64,13 @@ FUNC = ./draw\
 	./base/ft_read\
 	./base/malloc_array\
 	./base/ft_realloc\
-	./base/stox
+	./base/stox\
+	./parse/check\
+	./parse/input_am_li_ca\
+	./parse/input_obj\
+	./parse/input_xyz\
+	./parse/next_line\
+	./parse/tool_sp_st_fl
 
 SRC = $(addsuffix .c, $(FUNC))
 OBJ = $(addsuffix .o, $(FUNC))

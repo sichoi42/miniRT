@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stox.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: swi <swi@student.42seoul.kr>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/17 16:57:04 by swi               #+#    #+#             */
+/*   Updated: 2022/06/17 16:57:05 by swi              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 #include <unistd.h>
 
 static void	check_minus(char *str, size_t *index, int *is_minus)
 {
-	size_t temp;
+	size_t	temp;
 
 	temp = *index;
 	if (str[*index] == '-')

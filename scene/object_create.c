@@ -15,6 +15,8 @@
 #include "utils.h"
 #include "init.h"
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 t_obj	*object(t_obj_type type, void *element, t_color3 albedo)
 {
