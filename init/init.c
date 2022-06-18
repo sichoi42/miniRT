@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/17 16:12:17 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/18 16:38:42 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,4 @@ void	init(t_scene *scene, t_mlx *mlx, t_in_object *in_obj)
 	scene->light = NULL;
 	scene->objs = adding_objects(in_obj, &scene->light, mlx->mlx_ptr);
 	scene->mlx = mlx;
-	free_in_object(in_obj);
 }
