@@ -11,13 +11,14 @@
 # Half_Sphere(sp2)     Center    Diameter  Color                        TEXTURE
 # Cylinder_no_cap(cy2) Center    Normal    Diameter    Height    Color  TEXTURE
 
-W 909 600
-A 0.1                     rgb    255,255,255
-C 4,5,0   -1,-1,1 70
+W  1080 720
 
-L -4,5,-4  0.3 rgb 255,255,255
+A  0.2 rgb 255,255,255
 
-pl 0,-3,0   0,1,0  bp ./rt/block.xpm ./rt/block_normal.xpm 0
-sp 0,0,5   4   bp ./rt/earthmap.xpm ./rt/earthmap_normal.xpm 0
-# sp 0,0,5   4   bp ./rt/earthmap2.xpm ./rt/earthmap2.xpm 0
-# sp 0,0,10 4 rgb  255,0,0 0
+C   0,5,0      0,0,-1     95
+L   0,5,0    0.5  rgb 255,255,255
+pl   0,0,0    0,1,0  rgb 0,127,127           0
+pl   0,0,-10    0,0,1  rgb 0,127,127         0
+
+co   -0.5,5,-5     1,1,0.57735    5 30 rgb 0,127,0  0
+

@@ -6,7 +6,7 @@
 #    By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 17:05:57 by sichoi            #+#    #+#              #
-#    Updated: 2022/06/17 18:56:46 by sichoi           ###   ########.fr        #
+#    Updated: 2022/06/18 16:40:31 by sichoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ MLX_DIR = ./mlx
 LIB_MLX = $(MLX_DIR)/$(MLX_NAME)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 GREEN = \033[0;32m
 RED = \033[0;31m
