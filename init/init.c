@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 18:21:29 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/18 16:38:42 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/19 15:02:05 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,6 @@ t_xpm_image	*get_xpm_img(char *file_name, void *mlx_ptr)
 	&xpm_img->img.line_length, \
 	&xpm_img->img.endian);
 	return (xpm_img);
-}
-
-void	free_in_object(t_in_object *o)
-{
-	free(o->w);
-	free(o->a);
-	free(o->c);
-	free(o->l);
-	free(o->sp);
-	free(o->pl);
-	free(o->co);
 }
 
 t_obj	*adding_objects(t_in_object *in_obj, t_obj **light, void *mlx_ptr)
