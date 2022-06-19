@@ -6,7 +6,7 @@
 /*   By: sichoi <sichoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:36:17 by sichoi            #+#    #+#             */
-/*   Updated: 2022/06/18 17:25:06 by sichoi           ###   ########.fr       */
+/*   Updated: 2022/06/19 14:32:38 by sichoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ t_bool	hit_plane(t_obj *obj, t_ray *ray, t_hit_record *rec)
 	if (t < rec->t_min || t > rec->t_max)
 		return (FALSE);
 	rec->t = t;
+	if (vdot(ray->dir, pl->normal) > 0)
+		pl->normal = vflip(pl->normal);
 	rec->normal = vunit(pl->normal);
 	rec->p = ray_at(ray, t);
 	rec->p = vplus(rec->p, vmult(rec->normal, EPSILON));
 	rec->texture = pl->texture;
-	set_face_normal(ray, rec);
 	get_plane_uv(rec);
 	hit_color_select(rec, obj);
 	return (TRUE);
